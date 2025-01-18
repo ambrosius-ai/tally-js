@@ -1,0 +1,51 @@
+{
+  "name": "tally-js",
+  "version": "0.1.0",
+  "description": "TypeScript wrapper for Tally.so API",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare": "husky",
+    "prepublishOnly": "npm run build",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "tally",
+    "tally.so",
+    "forms",
+    "api",
+    "wrapper",
+    "typescript",
+    "ambrosius.ai"
+  ],
+  "author": "ambrosius.ai",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ambrosius-ai/tally-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ambrosius-ai/tally-js/issues"
+  },
+  "homepage": "https://github.com/ambrosius-ai/tally-js#readme"
+}
