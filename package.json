@@ -1,15 +1,15 @@
 {
   "name": "tally-js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "TypeScript wrapper for Tally.so API",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "main": "./dist/index.es.js",
+  "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.es.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [
@@ -19,15 +19,14 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "vite build",
     "dev": "vite",
+    "build": "tsc && vite build",
+    "type-check": "tsc --noEmit",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "husky",
-    "prepublishOnly": "npm run build",
-    "type-check": "tsc --noEmit"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "tally",
@@ -38,7 +37,7 @@
     "typescript",
     "ambrosius.ai"
   ],
-  "author": "ambrosius.ai",
+  "author": "Jonas Schweizer <info@ambrosius.ai> (https://ambrosius.ai)",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -47,5 +46,23 @@
   "bugs": {
     "url": "https://github.com/ambrosius-ai/tally-js/issues"
   },
-  "homepage": "https://github.com/ambrosius-ai/tally-js#readme"
+  "homepage": "https://github.com/ambrosius-ai/tally-js#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^3.0.2",
+    "husky": "^9.1.7",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vite-plugin-dts": "^4.5.0",
+    "vitest": "^3.0.2"
+  },
+  "dependencies": {
+    "typescript-eslint": "^8.20.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "test format"
+    }
+  }
 }
