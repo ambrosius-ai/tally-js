@@ -1,5 +1,6 @@
 export class TallyClient {
   private apiKey: string
+  private workspaceId: string
 
   constructor(apiKey: string) {
     this.apiKey = apiKey
@@ -11,6 +12,10 @@ export class TallyClient {
 
   getApiKey(): string {
     return this.apiKey
+  }
+
+  getWorkspaceId(): string {
+    return this.workspaceId
   }
 }
 

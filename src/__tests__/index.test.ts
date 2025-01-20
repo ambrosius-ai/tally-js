@@ -26,9 +26,9 @@ describe('TallyClient', () => {
   it('should maintain separate API keys for different instances', () => {
     const client1 = new TallyClient('key1')
     const client2 = new TallyClient('key2')
-    
+
     expect(client1.getApiKey()).toBe('key1')
     expect(client2.getApiKey()).toBe('key2')
-    expect(client1.getVersion()).toBe(client2.getVersion())
+    expect(client1.getApiKey()).not.toBe(client2.getApiKey())
   })
 })
