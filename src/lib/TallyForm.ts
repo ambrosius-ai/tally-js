@@ -26,10 +26,15 @@ export class TallyForm {
     workspaceId?: string,
     templateId?: string,
   ) {
+    this.blocks = blocks
     this.workspaceId = workspaceId
     this.templateId = templateId
-    this.blocks = blocks
     this.status = status
     this.settings = settings
+  }
+
+  addBlock(block: TallyBlock): TallyForm {
+    this.blocks.push(block)
+    return this
   }
 }
