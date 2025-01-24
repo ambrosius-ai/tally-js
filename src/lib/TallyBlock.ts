@@ -1,4 +1,8 @@
-import { ITallyBlock, ITallyLayoutPayload, ITallyTextOrHeadingPayload } from './TallyBlockTypes'
+import {
+  ITallyBlock,
+  ITallyLayoutPayload,
+  ITallyTextOrHeadingPayload,
+} from './TallyBlockTypesInterfaces'
 
 export class TallyBlock implements ITallyBlock {
   groupType: any
