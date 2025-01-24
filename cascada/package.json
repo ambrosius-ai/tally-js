@@ -1,0 +1,25 @@
+{
+  "name": "tally-client",
+  "version": "1.0.0",
+  "description": "TypeScript wrapper for the Tally API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "prepare": "npm run build"
+  },
+  "keywords": ["api", "client", "typescript", "tally"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/jest": "^29.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
