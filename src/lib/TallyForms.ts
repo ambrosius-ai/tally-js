@@ -26,6 +26,23 @@ export class TallyForms {
     }
   }
 
+  async get(formId: string): Promise<{ data?: Partial<TallyForm>; error?: TallyError }> {
+    const response = await fetch(`https://api.tally.so/forms/${formId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.#apiKey}`,
+      },
+    })
+    const data = response.ok ? await response.json() : undefined
+    const error = !response.ok ? (new Error(response.statusText) as TallyError) : undefined
+
+    return {
+      data: data as unknown as TallyForm,
+      error: error,
+    }
+  }
+
   async update(form: TallyForm): Promise<TallyForm> {
     return new Promise((resolve) => {
       resolve(form)
