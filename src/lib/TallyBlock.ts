@@ -2,7 +2,7 @@ import {
   ITallyBlock,
   ITallyLayoutPayload,
   ITallyTextOrHeadingPayload,
-} from './TallyBlockTypesInterfaces'
+} from './types'
 
 export class TallyBlock implements ITallyBlock {
   groupType: any

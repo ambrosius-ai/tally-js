@@ -47,3 +47,10 @@ export enum TallyBlockTypes {
   CAPTCHA = 'CAPTCHA',
   RESPONDENT_COUNTRY = 'RESPONDENT_COUNTRY',
 }
+
+export enum TallyFormStatus {
+  BLANK = 'BLANK',
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  DELETED = 'DELETED',
+}

@@ -26,3 +26,5 @@ export interface ITallyBlock {
     | ITallyTextOrHeadingPayload
     | ITallyLabelOrTitlePayload
 }
+
+export type TallyFormSettings = {}

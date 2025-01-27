@@ -1,5 +1,5 @@
 import { TallyForm } from './TallyForm'
-import { TallyError } from './TallyErrors'
+import { TallyError } from './errors'
 
 export class TallyForms {
   #apiKey: string

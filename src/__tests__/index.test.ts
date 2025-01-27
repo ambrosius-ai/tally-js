@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { TallyClient } from '../lib/TallyClient'
+import { TallyClient } from '../TallyClient'
 
 describe('TallyClient', () => {
   it('should create an instance with an API key', () => {

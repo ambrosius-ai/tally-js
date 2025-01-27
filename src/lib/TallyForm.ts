@@ -1,6 +1,6 @@
 //TODO:  handle file path with alias
-import { TallyFormStatus } from './TallyFormStatus'
-import { TallyFormSettings } from './TallyFormSettings'
+import { TallyFormStatus } from './constants'
+import { TallyFormSettings } from './types'
 import { TallyBlock } from './TallyBlock'
 
 // Do we differentiate between a type that is the payload for creating a form

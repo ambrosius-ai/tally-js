@@ -1,4 +1,4 @@
-import { TallyForms } from './TallyForms'
+import { TallyForms } from './lib/TallyForms'
 
 export class TallyClient {
   apiKey: string
