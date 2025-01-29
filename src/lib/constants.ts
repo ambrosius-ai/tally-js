@@ -1,4 +1,4 @@
-export enum TallyBlockTypes {
+export const enum TallyBlockTypes {
   FORM_TITLE = 'FORM_TITLE',
   TEXT = 'TEXT',
   LABEL = 'LABEL',
@@ -48,7 +48,7 @@ export enum TallyBlockTypes {
   RESPONDENT_COUNTRY = 'RESPONDENT_COUNTRY',
 }
 
-export enum TallyFormStatus {
+export const enum TallyFormStatus {
   BLANK = 'BLANK',
   DRAFT = 'DRAFT',
   PUBLISHED = 'PUBLISHED',

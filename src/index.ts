@@ -1,8 +1,7 @@
 export * from './TallyClient'
-export * from './lib/TallyForm'
-export * from './lib/TallyBlock'
-export * from './lib/TallyForms'
-export * from './lib/types'
-export * from './lib/errors'
+
+export * from './lib'
+export * from './models'
+export * from './lib'
 export * from './util'
-export * from './lib/constants'
+export * from './services'

@@ -1,3 +1,5 @@
+import { TallyBlockTypes, TallyFormStatus } from '../lib/constants'
+
 export interface ITallyLayoutPayload {
   columnListUuid?: string
   columnRatio?: number
@@ -15,10 +17,10 @@ export interface ITallyLabelOrTitlePayload extends ITallyTextOrHeadingPayload {
   isFolded: boolean
 }
 
-export interface ITallyBlock {
-  groupType: any
+export interface TallyFormBlockDTO {
+  groupType: TallyBlockTypes
   groupUuid: string
-  type: any
+  type: TallyBlockTypes
   uuid: string
   payload?:
     | ITallyLayoutPayload
@@ -27,4 +29,17 @@ export interface ITallyBlock {
     | ITallyLabelOrTitlePayload
 }
 
-export type TallyFormSettings = {}
+export type TallyFormSettingsDTO = {}
+
+export interface TallyFormDTO {
+  // id: string // response
+  blocks: TallyFormBlockDTO[]
+  status: TallyFormStatus
+  settings?: TallyFormSettingsDTO
+  workspaceId?: string
+  templateId?: string
+}
+
+export interface TallyForm extends TallyFormDTO {
+  addBlock(block: TallyFormBlockDTO): TallyForm
+}

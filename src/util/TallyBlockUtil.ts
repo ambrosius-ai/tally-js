@@ -1,6 +1,13 @@
-import { TallyBlock } from '../lib/TallyBlock'
+import { TallyBlockTypes } from '../lib'
+import { TallyFormBlockModel } from '../models'
+import { TallyFormBlockDTO } from '../types'
 import { v4 as uuidv4 } from 'uuid'
 
-export function initNewTallyBlock(blockType: string): TallyBlock {
-  return new TallyBlock(blockType, uuidv4(), blockType, uuidv4())
+export function initNewTallyBlock(blockType: TallyBlockTypes): TallyFormBlockDTO {
+  return new TallyFormBlockModel({
+    groupType: blockType,
+    groupUuid: uuidv4(),
+    type: blockType,
+    uuid: uuidv4(),
+  })
 }
