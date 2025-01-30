@@ -1,15 +1,21 @@
-import { TallyForm, CreateFormRequest, UpdateFormRequest } from '../types/tally.types';
+import { 
+  TallyForm, 
+  CreateFormRequest, 
+  UpdateFormRequest,
+  FormStatus,
+  BlockType,
+  FormBlock,
+  FormSettings
+} from '../types/tally.types';
+import { BaseTallyApiService } from './baseTallyApi.service';
 
-export class TallyFormService {
-  constructor(private readonly blockId: string) {}
-
+export class TallyFormService extends BaseTallyApiService {
   /**
-   * Create a new form
-   * @param request The create form request
-   * @returns Promise with the created form
+   * List all forms
+   * @returns Promise with an array of forms
    */
-  async createForm(request: CreateFormRequest): Promise<TallyForm> {
-    throw new Error('Not implemented');
+  async listForms(): Promise<TallyForm[]> {
+    return this.makeRequest<TallyForm[]>('/forms');
   }
 
   /**
@@ -18,15 +24,45 @@ export class TallyFormService {
    * @returns Promise with the form
    */
   async getForm(id: string): Promise<TallyForm> {
-    throw new Error('Not implemented');
+    return this.makeRequest<TallyForm>(`/forms/${id}`);
   }
 
   /**
-   * List all forms for the current block
-   * @returns Promise with an array of forms
+   * Create a new form
+   * @param request The create form request
+   * @returns Promise with the created form
+   * @example
+   * const request: CreateFormRequest = {
+   *   status: FormStatus.BLANK,
+   *   blocks: [{
+   *     uuid: "3c90c3cc-0d44-4b50-8888-8dd25736052a",
+   *     type: BlockType.FORM_TITLE,
+   *     groupUuid: "3c90c3cc-0d44-4b50-8888-8dd25736052a",
+   *     groupType: BlockType.FORM_TITLE,
+   *     payload: {
+   *       html: "<string>",
+   *       button: { label: "Submit" }
+   *     }
+   *   }],
+   *   settings: {
+   *     isClosed: false,
+   *     hasProgressBar: false,
+   *     hasPartialSubmissions: false,
+   *     pageAutoJump: false,
+   *     saveForLater: true,
+   *     hasSelfEmailNotifications: false,
+   *     hasRespondentEmailNotifications: false
+   *   }
+   * };
    */
-  async listForms(): Promise<TallyForm[]> {
-    throw new Error('Not implemented');
+  async createForm(request: CreateFormRequest): Promise<TallyForm> {
+    return this.makeRequest<TallyForm>('/forms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
   }
 
   /**
@@ -36,7 +72,13 @@ export class TallyFormService {
    * @returns Promise with the updated form
    */
   async updateForm(id: string, request: UpdateFormRequest): Promise<TallyForm> {
-    throw new Error('Not implemented');
+    return this.makeRequest<TallyForm>(`/forms/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
   }
 
   /**
@@ -45,6 +87,8 @@ export class TallyFormService {
    * @returns Promise<void>
    */
   async deleteForm(id: string): Promise<void> {
-    throw new Error('Not implemented');
+    await this.makeRequest(`/forms/${id}`, {
+      method: 'DELETE',
+    });
   }
 }
