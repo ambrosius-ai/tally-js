@@ -1,4 +1,7 @@
-# Your API Wrapper
+
+![logo](https://github.com/user-attachments/assets/b35d0e42-858a-4c9a-8488-e1769269dbd0)
+
+# tally-ts
 
 A type-safe and developer-friendly TypeScript wrapper for the tally.so API.
 
