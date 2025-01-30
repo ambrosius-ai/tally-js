@@ -1,5 +1,5 @@
 import { TallyFormStatus } from '../lib/constants'
-import { TallyFormBlockDTO, TallyFormSettingsDTO } from '../types/dto.types'
+import { TallyFormBlockDTO, TallyFormSettingsDTO } from '../types/form.dto.types'
 
 export class TallyFormModel {
   // id: string // response
