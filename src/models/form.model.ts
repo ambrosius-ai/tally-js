@@ -1,15 +1,13 @@
+import { createModel } from '../util/createModel'
 import { TallyFormStatus } from '../lib/constants'
 import { TallyFormBlockDTO, TallyFormSettingsDTO } from '../types/form.dto.types'
 
 export class TallyFormModel {
-  // id: string // response
   blocks: TallyFormBlockDTO[]
   status: TallyFormStatus
   settings?: TallyFormSettingsDTO
   workspaceId?: string
   templateId?: string
-  // createdAt: string // response
-  ///...
 
   constructor(
     blocks: TallyFormBlockDTO[],
@@ -30,3 +28,5 @@ export class TallyFormModel {
     return this
   }
 }
+
+export const TallyFormBlockModel = createModel<TallyFormBlockDTO>()
