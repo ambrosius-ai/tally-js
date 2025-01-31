@@ -14,6 +14,40 @@ export type TallyPayloadDTO =
   | TallyPayloadEmbedDTO
   | TallyPayloadEmbedAudioDTO
   | TallyPayloadEmbedVideoDTO
+  | TallyPayloadDefaultAnswerDTO
+  | TallyPayloadQuestionDTO
+  | TallyPayloadMultipleChoiceDTO
+  | TallyPayloadCheckboxesDTO
+  | TallyPayloadDropdownDTO
+  | TallyPayloadRankingDTO
+  | TallyPayloadMatrixDTO
+  | TallyPayloadMultiSelectDTO
+  | TallyPayloadInputTextDTO
+  | TallyPayloadInputNumberDTO
+  | TallyPayloadInputEmailDTO
+  | TallyPayloadInputLinkDTO
+  | TallyPayloadInputPhoneNumberDTO
+  | TallyPayloadInputDateDTO
+  | TallyPayloadInputTimeDTO
+  | TallyPayloadInputTextAreaDTO
+  | TallyPayloadFileUploadDTO
+  | TallyPayloadLinearScaleDTO
+  | TallyPayloadRatingDTO
+  | TallyPayloadHiddenFieldsDTO
+  | TallyPayloadDropdownOptionDTO
+  | TallyPayloadRankingOptionDTO
+  | TallyPayloadMultipleChoiceOptionDTO
+  | TallyPayloadMultiSelectOptionDTO
+  | TallyPayloadCheckboxDTO
+  | TallyPayloadPaymentDTO
+  | TallyPayloadSignatureDTO
+  | TallyPayloadMatrixRowDTO
+  | TallyPayloadMatrixColumnDTO
+  | TallyPayloadWalletConnectDTO
+  | TallyPayloadConditionalLogicDTO
+  | TallyPayloadCalculdatedFieldsDTO
+  | TallyPayloadCaptchaDTO
+  | TallyPayloadRespondentCountryDTO
   | null
 
 export interface TallyPayloadLayoutDTO {
@@ -317,7 +351,7 @@ export type TallyField = {
   value: string
 }
 
-export interface CalculdatedFieldsDTO {
+export interface TallyPayloadCalculdatedFieldsDTO {
   columnListUuid?: string
   columnRatio?: number
   columnUuid?: string
