@@ -50,7 +50,7 @@ export interface TallyFormUpdateDTO {
   status?: TallyFormStatus
 }
 
-// Used for listForms, createForm, updateForm
+// Used for createForm, updateForm
 export type TallyFormSimpleResponseDTO = {
   createdAt: string
   id: string
@@ -80,4 +80,12 @@ export interface TallyFormBlockDTO {
   type: TallyBlockTypes
   uuid: string
   payload?: TallyPayloadDTO
+}
+
+export interface TallyFormListDTO {
+  hasMore: boolean
+  items: TallyFormSimpleResponseDTO[]
+  limit: number
+  page: number
+  total: number
 }
