@@ -125,6 +125,7 @@ tally-ts/
 │   ├── lib/
 │   │   ├── constants.ts
 │   │   └── errors.ts
+│   │   ├── httpClient.ts
 │   ├── models/
 │   │   ├── form.model.ts
 │   │   ├── payload.model.ts
