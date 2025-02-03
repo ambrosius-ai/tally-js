@@ -9,5 +9,6 @@ export function initNewTallyBlock(blockType: TallyBlockTypes): TallyFormBlockDTO
     groupUuid: uuidv4(),
     type: blockType,
     uuid: uuidv4(),
+    payload: {},
   })
 }
