@@ -1,57 +1,41 @@
-import { TallyForm } from '../types'
+import {
+  TallyForm,
+  TallyFormFullResponseDTO,
+  TallyFormListDTO,
+  TallyFormSimpleResponseDTO,
+} from '../types'
 import { TallyError } from '../lib/errors'
+import { HttpClient } from '../lib/httpClient'
 
-export class TallyForms {
-  #apiKey: string
-  constructor(apiKey: string) {
-    this.#apiKey = apiKey
+export class TallyFormService {
+  #httpClient: HttpClient
+  constructor(httpClient: HttpClient) {
+    this.#httpClient = httpClient
   }
 
-  async create(form: TallyForm): Promise<{ data?: Partial<TallyForm>; error?: TallyError }> {
-    const response = await fetch('https://api.tally.so/forms', {
-      method: 'POST',
-      body: JSON.stringify(form),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.#apiKey}`,
-      },
-    })
-
-    const data = response.ok ? await response.json() : undefined
-    const error = !response.ok ? (new Error(response.statusText) as TallyError) : undefined
-
-    return {
-      data: data as unknown as TallyForm,
-      error: error,
-    }
+  async create(
+    form: TallyForm,
+  ): Promise<{ data?: TallyFormSimpleResponseDTO; error?: TallyError }> {
+    return this.#httpClient.post('/forms', form)
   }
 
-  async get(formId: string): Promise<{ data?: Partial<TallyForm>; error?: TallyError }> {
-    const response = await fetch(`https://api.tally.so/forms/${formId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.#apiKey}`,
-      },
-    })
-    const data = response.ok ? await response.json() : undefined
-    const error = !response.ok ? (new Error(response.statusText) as TallyError) : undefined
-
-    return {
-      data: data as unknown as TallyForm,
-      error: error,
-    }
+  async get(formId: string): Promise<{ data?: TallyFormFullResponseDTO; error?: TallyError }> {
+    return this.#httpClient.get(`/forms/${formId}`)
   }
 
-  async update(form: TallyForm): Promise<TallyForm> {
-    return new Promise((resolve) => {
-      resolve(form)
-    })
+  async list(): Promise<{ data?: TallyFormListDTO; error?: TallyError }> {
+    return this.#httpClient.get('/forms')
   }
 
-  async delete(form: TallyForm): Promise<TallyForm> {
-    return new Promise((resolve) => {
-      resolve(form)
-    })
-  }
+  // async update(form: TallyForm): Promise<TallyForm> {
+  //   return new Promise((resolve, reject) => {
+  //     reject(new TallyError('Not implemented'))
+  //   })
+  // }
+
+  // async delete(formId: string): Promise<TallyForm> {
+  //   return new Promise((resolve, reject) => {
+  //     reject(new TallyError('Not implemented'))
+  //   })
+  // }
 }
