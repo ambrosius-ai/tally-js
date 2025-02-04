@@ -1,7 +1,6 @@
 import { TallyBlockTypes } from '../lib'
 
 export type TallyPayloadDTO =
-  | TallyPayloadLayoutDTO
   | TallyPayloadDividerDTO
   | TallyPayloadFormTitleDTO
   | TallyPayloadTextDTO
@@ -48,7 +47,7 @@ export type TallyPayloadDTO =
   | TallyPayloadCalculdatedFieldsDTO
   | TallyPayloadCaptchaDTO
   | TallyPayloadRespondentCountryDTO
-  | null
+  | object
 
 export interface TallyPayloadLayoutDTO {
   columnListUuid?: string
@@ -73,40 +72,40 @@ export interface TallyPayloadFormTitleDTO {
 }
 
 export interface TallyPayloadTextDTO extends TallyPayloadLayoutDTO {
-  html: string
+  html?: string
 }
 
 export interface TallyPayloadLabelDTO extends TallyPayloadTextDTO {
-  isFolded: boolean
+  isFolded?: boolean
 }
 
 /** same payload for H1, H2, H3 */
 export interface TallyPayloadHeadingDTO extends TallyPayloadLayoutDTO {
-  html: string
+  html?: string
 }
 
 export interface TallyPayloadTitleDTO extends TallyPayloadTextDTO {
-  isFolded: boolean
+  isFolded?: boolean
 }
 
 export interface TallyPayloadPageBreakDTO {
-  index: number
-  isFirst: boolean
-  isLast: boolean
-  isQualifiedForThankYouPage: boolean
-  isThankYouPage: boolean
+  index?: number
+  isFirst?: boolean
+  isLast?: boolean
+  isQualifiedForThankYouPage?: boolean
+  isThankYouPage?: boolean
 }
 
 export interface TallyPayloadThankYouPageDTO {
-  isHidden: boolean
-  isThankYouPage: boolean
+  isHidden?: boolean
+  isThankYouPage?: boolean
 }
 
 export interface TallyPayloadImageDTO extends TallyPayloadLayoutDTO {
-  alt: string
-  height: number
-  url: string
-  width: number
+  alt?: string
+  height?: number
+  url?: string
+  width?: number
 }
 
 export interface TallyPayloadEmbedDTO extends TallyPayloadLayoutDTO {
@@ -122,17 +121,17 @@ export interface TallyPayloadEmbedDTO extends TallyPayloadLayoutDTO {
 }
 
 export interface TallyPayloadEmbedAudioDTO extends TallyPayloadLayoutDTO {
-  provider: string
-  url: string
+  provider?: string
+  url?: string
 }
 
 export type TallyPayloadEmbedVideoDTO = TallyPayloadEmbedAudioDTO
 
 export interface TallyPayloadDefaultAnswerDTO {
-  blockGroupUuid: string
-  questionType: TallyBlockTypes
-  type: 'InputField' | 'CalculatedField' | 'HiddenField'
-  uuid: string
+  blockGroupUuid?: string
+  questionType?: TallyBlockTypes
+  type?: 'InputField' | 'CalculatedField' | 'HiddenField'
+  uuid?: string
   calculatedFieldType?: 'NUMBER' | 'TEXT'
   title?: string
 }
@@ -345,17 +344,17 @@ export interface TallyPayloadConditionalLogicDTO {
 }
 
 export type TallyField = {
-  name: string
-  type: 'NUMBER' | 'TEXT'
-  uuid: string
-  value: string
+  name?: string
+  type?: 'NUMBER' | 'TEXT'
+  uuid?: string
+  value?: string
 }
 
 export interface TallyPayloadCalculdatedFieldsDTO {
   columnListUuid?: string
   columnRatio?: number
   columnUuid?: string
-  fields: TallyField
+  fields?: TallyField[]
   isHidden?: boolean
 }
 
