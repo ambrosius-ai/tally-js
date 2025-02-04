@@ -1,1 +1,1 @@
-export * from './TallyFormsService'
+export * from './formService'

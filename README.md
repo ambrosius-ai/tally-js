@@ -1,4 +1,3 @@
-
 ![logo](https://github.com/user-attachments/assets/b35d0e42-858a-4c9a-8488-e1769269dbd0)
 
 # tally-ts
@@ -85,7 +84,22 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ```
 tally-ts/
 ├── src/
+│   ├── client.ts
 │   ├── lib/
-│   │   └── constants.ts
-│   └── README.md
+│   │   ├── constants.ts
+│   │   └── errors.ts
+│   ├── models/
+│   │   ├── form.model.ts
+│   │   ├── payload.model.ts
+│   │   └── index.ts
+│   ├── services/
+│   │   ├── formService.ts
+│   ├── types/
+│   │   ├── form.dto.types.ts
+│   │   └── payload.dto.types.ts
+│   ├── util/
+│   │   ├── createModel.ts
+│   │   ├── initBlock.ts
+├── __tests__/
+│   ├── WIP
 ```
