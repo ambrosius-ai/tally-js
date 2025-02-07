@@ -49,6 +49,7 @@ export type TallyPayloadDTO =
   | TallyPayloadRespondentCountryDTO
   | object
 
+
 export interface TallyPayloadLayoutDTO {
   columnListUuid?: string
   columnRatio?: number
