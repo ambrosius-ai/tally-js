@@ -1,5 +1,5 @@
 import {
-  TallyForm,
+  TallyFormCreateDTO,
   TallyFormFullResponseDTO,
   TallyFormListDTO,
   TallyFormSimpleResponseDTO,
@@ -14,9 +14,11 @@ export class TallyFormService {
   }
 
   async create(
-    form: TallyForm,
+    form: TallyFormCreateDTO,
   ): Promise<{ data?: TallyFormSimpleResponseDTO; error?: TallyError }> {
-    return this.#httpClient.post('/forms', form)
+    const { data, error } = await this.#httpClient.post<TallyFormCreateDTO>('/forms', form)
+    const formData = data ? (data as TallyFormSimpleResponseDTO) : undefined
+    return { data: formData, error }
   }
 
   async get(formId: string): Promise<{ data?: TallyFormFullResponseDTO; error?: TallyError }> {

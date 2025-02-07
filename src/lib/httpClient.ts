@@ -7,10 +7,10 @@ export interface HttpResponse<T> {
 }
 
 export interface HttpClient {
-  get<T>(url: string): Promise<HttpResponse<T>>
-  post<T>(url: string, data: unknown): Promise<HttpResponse<T>>
-  put<T>(url: string, data: unknown): Promise<HttpResponse<T>>
-  delete<T>(url: string): Promise<HttpResponse<T>>
+  get(url: string): Promise<HttpResponse<any>>
+  post<T>(url: string, data: T): Promise<HttpResponse<any>>
+  put<T>(url: string, data: T): Promise<HttpResponse<any>>
+  delete(url: string): Promise<HttpResponse<any>>
 }
 
 // Implementation of the HTTP client using fetch
@@ -22,7 +22,7 @@ export class FetchHttpClient implements HttpClient {
     this.#headers = headers
   }
 
-  private async _request<T>(url: string, options: RequestInit): Promise<HttpResponse<T>> {
+  private async _request(url: string, options: RequestInit): Promise<HttpResponse<any>> {
     const response = await fetch(`${this.#baseUrl}${url}`, {
       ...options,
       headers: {
@@ -31,32 +31,32 @@ export class FetchHttpClient implements HttpClient {
         ...options.headers,
       },
     })
-    const data = response.ok ? ((await response.json()) as T) : undefined
+    const data = response.ok ? ((await response.json()) as unknown) : undefined
     // TODO: define fine grained error types
-    const error = !response.ok ? (new Error(await response.statusText) as TallyError) : undefined
+    const error = !response.ok ? (new Error(response.statusText) as TallyError) : undefined
 
     return { data, error }
   }
 
-  async get<T>(url: string): Promise<HttpResponse<T>> {
-    return this._request<T>(url, { method: 'GET' })
+  async get(url: string): Promise<HttpResponse<any>> {
+    return this._request(url, { method: 'GET' })
   }
 
-  async post<T>(url: string, data: unknown): Promise<HttpResponse<T>> {
-    return this._request<T>(url, {
+  async post<T>(url: string, data: T): Promise<HttpResponse<any>> {
+    return this._request(url, {
       method: 'POST',
       body: JSON.stringify(data),
     })
   }
 
-  async put<T>(url: string, data: unknown): Promise<HttpResponse<T>> {
-    return this._request<T>(url, {
+  async put<T>(url: string, data: T): Promise<HttpResponse<any>> {
+    return this._request(url, {
       method: 'PUT',
       body: JSON.stringify(data),
     })
   }
 
-  async delete<T>(url: string): Promise<HttpResponse<T>> {
-    return this._request<T>(url, { method: 'DELETE' })
+  async delete(url: string): Promise<HttpResponse<any>> {
+    return this._request(url, { method: 'DELETE' })
   }
 }
