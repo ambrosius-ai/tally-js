@@ -7,17 +7,23 @@ export class TallyClient {
   readonly forms: TallyFormService
 
   //TODO: allow api version
-  constructor(apiKey: string, baseUrl: string) {
+  constructor(apiKey: string, baseUrl: string, version?: string) {
     if (!this.validateApiKey(apiKey)) {
       throw new TallyInvalidClientConfigError('Invalid API key: ' + apiKey)
     }
     if (!this.isValidUrl(baseUrl)) {
       throw new TallyInvalidClientConfigError('Invalid base URL: ' + baseUrl)
     }
+    if (version != null && !this.validateVersion(version)) {
+      throw new TallyInvalidClientConfigError(
+        'Invalid version specified, expected yyyy-mm-dd, got this: ' + version,
+      )
+    }
 
     try {
       this.#httpClient = new FetchHttpClient(baseUrl, {
         Authorization: `Bearer ${apiKey}`,
+        ...(version ? { 'tally-version': version } : {}),
       })
 
       this.forms = new TallyFormService(this.#httpClient)
@@ -37,5 +43,10 @@ export class TallyClient {
     } catch {
       return false
     }
+  }
+
+  private validateVersion(version: string): boolean {
+    const versionPattern = /^\d{4}-\d{2}-\d{2}$/
+    return versionPattern.test(version)
   }
 }
