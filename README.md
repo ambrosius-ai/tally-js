@@ -39,7 +39,7 @@ This wrapper uses a three-layer architecture for maximum type safety and flexibi
 import { TallyClient } from 'tally-ts'
 
 const tally = new TallyClient({
-  apiKey: 'your-api-key',
+  apiKey: 'your-api-key','https://api.tally.so'
 })
 
 // Access data
@@ -71,6 +71,43 @@ class UserModel implements User {
 }
 ``` -->
 
+## Examples
+
+### Create new form from scratch
+
+```typescript
+// init client as described above
+
+import {
+  TallyFormModel,
+  TallyFormStatus,
+  TallyBlockTypes,
+  initNewTallyBlock,
+  TallyPayloadFormTitleDTO,
+} from 'tally-ts'
+
+const newForm = new TallyFormModel(
+  [], // no blocks - starting from scratch
+  TallyFormStatus.DRAFT,
+  {}, // default settings
+  'your-workspace-id',
+)
+
+const titleBlock = initNewTallyBlock(TallyBlockTypes.TITLE)
+titleBlock.payload = {
+  title: 'Official Title',
+  html: 'Official Title',
+} as TallyPayloadFormTitleDTO
+// simple option for auto-completion without class instantiation
+
+newForm.addBlock(titleBlock)
+
+const { data: createdForm, error: createError } = await tally.forms.create(newForm)
+
+console.log(createdForm.id, createError)
+// should print the form id of the created form and undefined
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -88,6 +125,7 @@ tally-ts/
 │   ├── lib/
 │   │   ├── constants.ts
 │   │   └── errors.ts
+│   │   ├── httpClient.ts
 │   ├── models/
 │   │   ├── form.model.ts
 │   │   ├── payload.model.ts
