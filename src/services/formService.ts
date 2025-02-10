@@ -28,8 +28,11 @@ export class TallyFormService {
     return { data: formData, error }
   }
 
-  async list(): Promise<{ data?: TallyListDTO<TallyFormSimpleResponseDTO>; error?: TallyError }> {
-    const { data, error } = await this.#httpClient.get('/forms')
+  async list(
+    page?: number,
+  ): Promise<{ data?: TallyListDTO<TallyFormSimpleResponseDTO>; error?: TallyError }> {
+    const pageUrl = !page ? '/forms' : `/forms?page=${page}`
+    const { data, error } = await this.#httpClient.get(pageUrl)
     const formData = data ? (data as TallyListDTO<TallyFormSimpleResponseDTO>) : undefined
     return { data: formData, error }
   }
