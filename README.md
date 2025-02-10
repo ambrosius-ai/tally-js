@@ -33,7 +33,7 @@ This wrapper uses a three-layer architecture for maximum type safety and flexibi
    - Provide additional functionality
    - Example: `FormModel` with methods like `addBlock()`
 
-## Quick Start (work in progress)
+## Quick Start
 
 ```typescript
 import { TallyClient } from 'tally-ts'
@@ -110,6 +110,23 @@ console.log(createdForm.id, createError)
 // should print the form id of the created form and undefined
 ```
 
+### List Forms
+
+```typescript
+let forms = null
+let currentPage = 0
+do {
+  currentPage += 1
+  const { data, error } = await tally.forms.list(currentPage)
+  if (!error && data) {
+    forms = data
+    forms.items.forEach((form) => {
+      console.log(form.id)
+    })
+  }
+} while (forms?.hasMore)
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -120,26 +137,31 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Directory Structure
 
-```
+````
+
 tally-ts/
 ├── src/
-│   ├── client.ts
-│   ├── lib/
-│   │   ├── constants.ts
-│   │   └── errors.ts
-│   │   ├── httpClient.ts
-│   ├── models/
-│   │   ├── form.model.ts
-│   │   ├── payload.model.ts
-│   │   └── index.ts
-│   ├── services/
-│   │   ├── formService.ts
-│   ├── types/
-│   │   ├── form.dto.types.ts
-│   │   └── payload.dto.types.ts
-│   ├── util/
-│   │   ├── createModel.ts
-│   │   ├── initBlock.ts
-├── __tests__/
-│   ├── WIP
+│ ├── client.ts
+│ ├── lib/
+│ │ ├── constants.ts
+│ │ └── errors.ts
+│ │ ├── httpClient.ts
+│ ├── models/
+│ │ ├── form.model.ts
+│ │ ├── payload.model.ts
+│ │ └── index.ts
+│ ├── services/
+│ │ ├── formService.ts
+│ ├── types/
+│ │ ├── form.dto.types.ts
+│ │ └── payload.dto.types.ts
+│ ├── util/
+│ │ ├── createModel.ts
+│ │ ├── initBlock.ts
+├── **tests**/
+│ ├── WIP
+
 ```
+
+```
+````
