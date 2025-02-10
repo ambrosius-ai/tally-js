@@ -1,9 +1,9 @@
-
 import {
   TallyFormCreateDTO,
   TallyFormFullResponseDTO,
-  TallyFormListDTO,
   TallyFormSimpleResponseDTO,
+  TallyListDTO,
+  TallyFormUpdateDTO,
 } from '../types'
 import { TallyError } from '../lib/errors'
 import { HttpClient } from '../lib/httpClient'
@@ -23,23 +23,30 @@ export class TallyFormService {
   }
 
   async get(formId: string): Promise<{ data?: TallyFormFullResponseDTO; error?: TallyError }> {
-    return this.#httpClient.get(`/forms/${formId}`)
+    const { data, error } = await this.#httpClient.get(`/forms/${formId}`)
+    const formData = data ? (data as TallyFormFullResponseDTO) : undefined
+    return { data: formData, error }
   }
 
-  async list(): Promise<{ data?: TallyFormListDTO; error?: TallyError }> {
-    return this.#httpClient.get('/forms')
+  async list(): Promise<{ data?: TallyListDTO<TallyFormSimpleResponseDTO>; error?: TallyError }> {
+    const { data, error } = await this.#httpClient.get('/forms')
+    const formData = data ? (data as TallyListDTO<TallyFormSimpleResponseDTO>) : undefined
+    return { data: formData, error }
   }
 
-  // async update(form: TallyForm): Promise<TallyForm> {
-  //   return new Promise((resolve, reject) => {
-  //     reject(new TallyError('Not implemented'))
-  //   })
-  // }
+  async update(
+    form: TallyFormUpdateDTO,
+  ): Promise<{ data?: TallyFormSimpleResponseDTO; error?: TallyError }> {
+    const { data, error } = await this.#httpClient.patch<TallyFormUpdateDTO>(
+      `/forms/${form.id}`,
+      form,
+    )
+    const formData = data ? (data as TallyFormSimpleResponseDTO) : undefined
+    return { data: formData, error }
+  }
 
-  // async delete(formId: string): Promise<TallyForm> {
-  //   return new Promise((resolve, reject) => {
-  //     reject(new TallyError('Not implemented'))
-  //   })
-  // }
-
+  async delete(formId: string): Promise<{ data?: undefined; error?: TallyError }> {
+    const { data, error } = await this.#httpClient.delete(`/forms/${formId}`)
+    return { data, error } // not success data. both undefined in case of success
+  }
 }

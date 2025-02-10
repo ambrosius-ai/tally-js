@@ -34,6 +34,11 @@ export type TallyFormSettingsDTO = {
   uniqueSubmissionKey?: string
 }
 
+export interface TallyPaymentsDTO {
+  amount: number
+  currency: string
+}
+
 export interface TallyFormCreateDTO {
   blocks: TallyFormBlockDTO[]
   status: TallyFormStatus
@@ -60,12 +65,12 @@ export type TallyFormSimpleResponseDTO = {
   status: TallyFormStatus
   updatedAt: string
   workspaceId: string
-  payments?: any
+  payments?: TallyPaymentsDTO[]
 }
 
 // Return type for the getForm request, including the contents of the form as blocks
 export interface TallyFormFullResponseDTO extends TallyFormSimpleResponseDTO {
-  blocks?: TallyFormBlockDTO
+  blocks?: TallyFormBlockDTO[]
   settings?: TallyFormSettingsDTO
 }
 
@@ -80,12 +85,4 @@ export interface TallyFormBlockDTO {
   type: TallyBlockTypes
   uuid: string
   payload?: TallyPayloadDTO
-}
-
-export interface TallyFormListDTO {
-  hasMore: boolean
-  items: TallyFormSimpleResponseDTO[]
-  limit: number
-  page: number
-  total: number
 }

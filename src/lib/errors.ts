@@ -15,3 +15,19 @@ export function isTallyError(error: unknown): error is TallyError {
 }
 
 export class TallyInvalidClientConfigError extends TallyError {}
+
+export class TallyApiError extends TallyError {
+  constructor(message: string, status: number) {
+    super(message)
+    this.name = 'TallyApiError | ' + status
+  }
+}
+
+export class TallyUnknowError extends TallyError {
+  originError: unknown
+  constructor(message: string, originalError: unknown) {
+    super(message)
+    this.name = 'TallyUnknowError'
+    this.originError = originalError
+  }
+}

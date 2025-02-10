@@ -1,4 +1,4 @@
-import { TallyError } from './errors'
+import { TallyApiError, TallyError, TallyUnknowError } from './errors'
 
 // Types for the HTTP client abstraction
 export interface HttpResponse<T> {
@@ -9,7 +9,7 @@ export interface HttpResponse<T> {
 export interface HttpClient {
   get(url: string): Promise<HttpResponse<any>>
   post<T>(url: string, data: T): Promise<HttpResponse<any>>
-  put<T>(url: string, data: T): Promise<HttpResponse<any>>
+  patch<T>(url: string, data: T): Promise<HttpResponse<any>>
   delete(url: string): Promise<HttpResponse<any>>
 }
 
@@ -23,19 +23,26 @@ export class FetchHttpClient implements HttpClient {
   }
 
   private async _request(url: string, options: RequestInit): Promise<HttpResponse<any>> {
-    const response = await fetch(`${this.#baseUrl}${url}`, {
-      ...options,
-      headers: {
-        ...this.#headers,
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-    })
-    const data = response.ok ? ((await response.json()) as unknown) : undefined
-    // TODO: define fine grained error types
-    const error = !response.ok ? (new Error(response.statusText) as TallyError) : undefined
-
-    return { data, error }
+    let data = undefined
+    let error = undefined
+    try {
+      const response = await fetch(`${this.#baseUrl}${url}`, {
+        ...options,
+        headers: {
+          ...this.#headers,
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+      })
+      data =
+        response.ok && response.status !== 204 ? ((await response.json()) as unknown) : undefined
+      error = !response.ok ? new TallyApiError(response.statusText, response.status) : undefined
+    } catch (unknownError: unknown) {
+      data = undefined
+      error = new TallyUnknowError('Unknown API Error', unknownError)
+    } finally {
+      return { data, error }
+    }
   }
 
   async get(url: string): Promise<HttpResponse<any>> {
@@ -49,9 +56,9 @@ export class FetchHttpClient implements HttpClient {
     })
   }
 
-  async put<T>(url: string, data: T): Promise<HttpResponse<any>> {
+  async patch<T>(url: string, data: T): Promise<HttpResponse<any>> {
     return this._request(url, {
-      method: 'PUT',
+      method: 'PATCH',
       body: JSON.stringify(data),
     })
   }
