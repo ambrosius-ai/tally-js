@@ -3,6 +3,7 @@ import { TallyFormService } from '../services'
 import { HttpClient } from '../lib/httpClient'
 import { TallyInvalidRequestError } from '../lib/errors'
 import { TallyFormCreateDTO, TallyFormUpdateDTO } from '../types'
+import { TallyBlockTypes, TallyFormStatus } from '../lib/constants'
 
 // Mock HttpClient
 const mockHttpClient = {
@@ -22,13 +23,57 @@ describe('TallyFormService', () => {
 
   describe('create', () => {
     const validForm: TallyFormCreateDTO = {
-      name: 'Test Form',
-      fields: [{ name: 'field1', type: 'text' }],
+      blocks: [
+        {
+          type: TallyBlockTypes.FORM_TITLE,
+          groupType: TallyBlockTypes.FORM_TITLE,
+          uuid: '1',
+          groupUuid: '1',
+          payload: {
+            html: 'Test Form',
+            button: {
+              label: 'Submit'
+            }
+          }
+        },
+        {
+          type: TallyBlockTypes.INPUT_TEXT,
+          groupType: TallyBlockTypes.QUESTION,
+          uuid: '2',
+          groupUuid: '2',
+          payload: {
+            isRequired: true,
+            name: 'name',
+            placeholder: 'Enter your name'
+          }
+        },
+        {
+          type: TallyBlockTypes.INPUT_EMAIL,
+          groupType: TallyBlockTypes.QUESTION,
+          uuid: '3',
+          groupUuid: '3',
+          payload: {
+            isRequired: true,
+            name: 'email',
+            placeholder: 'Enter your email'
+          }
+        }
+      ],
+      status: TallyFormStatus.DRAFT
     }
 
     it('should create a form successfully', async () => {
       const mockResponse = {
-        data: { id: '123', name: 'Test Form' },
+        data: {
+          id: '123',
+          name: 'Test Form',
+          createdAt: '2025-02-13T17:30:00Z',
+          updatedAt: '2025-02-13T17:30:00Z',
+          isClosed: false,
+          numberOfSubmissions: 0,
+          status: TallyFormStatus.DRAFT,
+          workspaceId: 'ws-123'
+        },
         error: null,
       }
       mockHttpClient.post.mockResolvedValue(mockResponse)
@@ -56,7 +101,30 @@ describe('TallyFormService', () => {
   describe('get', () => {
     it('should get a form successfully', async () => {
       const mockResponse = {
-        data: { id: '123', name: 'Test Form' },
+        data: {
+          id: '123',
+          name: 'Test Form',
+          createdAt: '2025-02-13T17:30:00Z',
+          updatedAt: '2025-02-13T17:30:00Z',
+          isClosed: false,
+          numberOfSubmissions: 0,
+          status: TallyFormStatus.PUBLISHED,
+          workspaceId: 'ws-123',
+          blocks: [
+            {
+              type: TallyBlockTypes.FORM_TITLE,
+              groupType: TallyBlockTypes.FORM_TITLE,
+              uuid: '1',
+              groupUuid: '1',
+              payload: {
+                html: 'Test Form',
+                button: {
+                  label: 'Submit'
+                }
+              }
+            }
+          ]
+        },
         error: null,
       }
       mockHttpClient.get.mockResolvedValue(mockResponse)
@@ -76,7 +144,21 @@ describe('TallyFormService', () => {
   describe('list', () => {
     it('should list forms without page parameter', async () => {
       const mockResponse = {
-        data: { items: [], total: 0 },
+        data: {
+          items: [
+            {
+              id: '123',
+              name: 'Test Form',
+              createdAt: '2025-02-13T17:30:00Z',
+              updatedAt: '2025-02-13T17:30:00Z',
+              isClosed: false,
+              numberOfSubmissions: 0,
+              status: TallyFormStatus.PUBLISHED,
+              workspaceId: 'ws-123'
+            }
+          ],
+          total: 1
+        },
         error: null,
       }
       mockHttpClient.get.mockResolvedValue(mockResponse)
@@ -88,7 +170,10 @@ describe('TallyFormService', () => {
 
     it('should list forms with valid page parameter', async () => {
       const mockResponse = {
-        data: { items: [], total: 0 },
+        data: {
+          items: [],
+          total: 0
+        },
         error: null,
       }
       mockHttpClient.get.mockResolvedValue(mockResponse)
@@ -117,11 +202,35 @@ describe('TallyFormService', () => {
     const validUpdateForm: TallyFormUpdateDTO = {
       id: '123',
       name: 'Updated Form',
+      blocks: [
+        {
+          type: TallyBlockTypes.FORM_TITLE,
+          groupType: TallyBlockTypes.FORM_TITLE,
+          uuid: '1',
+          groupUuid: '1',
+          payload: {
+            html: 'Updated Form',
+            button: {
+              label: 'Submit'
+            }
+          }
+        }
+      ],
+      status: TallyFormStatus.PUBLISHED
     }
 
     it('should update a form successfully', async () => {
       const mockResponse = {
-        data: { id: '123', name: 'Updated Form' },
+        data: {
+          id: '123',
+          name: 'Updated Form',
+          createdAt: '2025-02-13T17:30:00Z',
+          updatedAt: '2025-02-13T17:31:00Z',
+          isClosed: false,
+          numberOfSubmissions: 0,
+          status: TallyFormStatus.PUBLISHED,
+          workspaceId: 'ws-123'
+        },
         error: null,
       }
       mockHttpClient.patch.mockResolvedValue(mockResponse)
