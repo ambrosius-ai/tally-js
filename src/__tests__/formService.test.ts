@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { TallyFormService } from '../services'
 import { HttpClient } from '../lib/httpClient'
 import { TallyInvalidRequestError } from '../lib/errors'
@@ -6,10 +6,10 @@ import { TallyFormCreateDTO, TallyFormUpdateDTO } from '../types'
 
 // Mock HttpClient
 const mockHttpClient = {
-  post: vi.fn(),
-  get: vi.fn(),
-  patch: vi.fn(),
-  delete: vi.fn(),
+  post: vi.fn().mockResolvedValue({ data: null, error: null }),
+  get: vi.fn().mockResolvedValue({ data: null, error: null }),
+  patch: vi.fn().mockResolvedValue({ data: null, error: null }),
+  delete: vi.fn().mockResolvedValue({ data: null, error: null }),
 } as unknown as HttpClient
 
 describe('TallyFormService', () => {
@@ -45,7 +45,7 @@ describe('TallyFormService', () => {
     })
 
     it('should handle API error', async () => {
-      const mockError = { code: 'ERROR', message: 'API Error' }
+      const mockError = { code: 'ERROR', message: 'API Error', __isTallyError: true }
       mockHttpClient.post.mockRejectedValue(mockError)
 
       const result = await formService.create(validForm)
@@ -105,7 +105,7 @@ describe('TallyFormService', () => {
     })
 
     it('should handle API error', async () => {
-      const mockError = { code: 'ERROR', message: 'API Error' }
+      const mockError = { code: 'ERROR', message: 'API Error', __isTallyError: true }
       mockHttpClient.get.mockRejectedValue(mockError)
 
       const result = await formService.list(1)
@@ -138,7 +138,7 @@ describe('TallyFormService', () => {
     })
 
     it('should handle API error', async () => {
-      const mockError = { code: 'ERROR', message: 'API Error' }
+      const mockError = { code: 'ERROR', message: 'API Error', __isTallyError: true }
       mockHttpClient.patch.mockRejectedValue(mockError)
 
       const result = await formService.update(validUpdateForm)
@@ -159,14 +159,15 @@ describe('TallyFormService', () => {
       expect(mockHttpClient.delete).toHaveBeenCalledWith('/forms/123')
     })
 
-    it('should throw error when formId is not provided', async () => {
-      await expect(formService.delete('')).rejects.toThrow(
-        new TallyInvalidRequestError('Missing request parameter: formId')
-      )
+    it('should return error when formId is not provided', async () => {
+      const result = await formService.delete('')
+      expect(result.error).toBeInstanceOf(TallyInvalidRequestError)
+      expect(result.error?.message).toBe('Missing request parameter: formId')
+      expect(result.data).toBeNull()
     })
 
     it('should handle API error', async () => {
-      const mockError = { code: 'ERROR', message: 'API Error' }
+      const mockError = { code: 'ERROR', message: 'API Error', __isTallyError: true }
       mockHttpClient.delete.mockRejectedValue(mockError)
 
       const result = await formService.delete('123')
