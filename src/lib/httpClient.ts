@@ -2,8 +2,8 @@ import { TallyApiError, TallyError, TallyUnknowError } from './errors'
 
 // Types for the HTTP client abstraction
 export interface HttpResponse<T> {
-  data?: T
-  error?: TallyError
+  data: T | null
+  error: TallyError | null
 }
 
 export interface HttpClient {
@@ -23,8 +23,8 @@ export class FetchHttpClient implements HttpClient {
   }
 
   private async _request(url: string, options: RequestInit): Promise<HttpResponse<any>> {
-    let data = undefined
-    let error = undefined
+    let data = null
+    let error = null
     try {
       const response = await fetch(`${this.#baseUrl}${url}`, {
         ...options,
@@ -34,11 +34,10 @@ export class FetchHttpClient implements HttpClient {
           ...options.headers,
         },
       })
-      data =
-        response.ok && response.status !== 204 ? ((await response.json()) as unknown) : undefined
-      error = !response.ok ? new TallyApiError(response.statusText, response.status) : undefined
+      data = response.ok && response.status !== 204 ? ((await response.json()) as unknown) : null
+      error = !response.ok ? new TallyApiError(response.statusText, response.status) : null
     } catch (unknownError: unknown) {
-      data = undefined
+      data = null
       error = new TallyUnknowError('Unknown API Error', unknownError)
     } finally {
       return { data, error }

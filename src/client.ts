@@ -6,7 +6,6 @@ export class TallyClient {
   #httpClient: HttpClient
   readonly forms: TallyFormService
 
-  //TODO: allow api version
   constructor(apiKey: string, baseUrl: string, version?: string) {
     if (!this.validateApiKey(apiKey)) {
       throw new TallyInvalidClientConfigError('Invalid API key: ' + apiKey)
