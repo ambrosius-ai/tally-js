@@ -16,7 +16,7 @@ export class TallyFormService {
 
   async create(
     form: TallyFormCreateDTO,
-  ): Promise<{ data: TallyFormSimpleResponseDTO | null; error: TallyError | null }> {
+  ): Promise<{ data: TallyFormSimpleResponseDTO | null; error: Error | null }> {
     if (!form) throw new TallyInvalidRequestError('Missing request param: form')
     try {
       const { data, error: httpError } = await this.#httpClient.post<TallyFormCreateDTO>(

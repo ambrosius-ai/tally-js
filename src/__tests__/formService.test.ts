@@ -23,9 +23,11 @@ describe('TallyFormService', () => {
   describe('FormService.create', () => {
     it('should create a form successfully', async () => {
       mockHttpClient.post = vi.fn().mockResolvedValue(mockSimpleResponse)
+      // mutations to the mocked object are recognized this way
+      const fixMockSimpleResponse = { ...mockSimpleResponse }
 
       const result = await formService.create(mockValidFormRequest)
-      expect(result).toEqual(mockSimpleResponse)
+      expect(result).toEqual(fixMockSimpleResponse)
       expect(mockHttpClient.post).toHaveBeenCalledWith('/forms', mockValidFormRequest)
     })
 
