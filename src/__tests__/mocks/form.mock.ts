@@ -65,3 +65,67 @@ export const mockUpdateResponse = {
   } as TallyFormSimpleResponseDTO,
   error: null,
 }
+
+// Mock for get operation
+export const mockGetResponse = {
+  data: {
+    id: '123',
+    name: 'Test Form',
+    createdAt: '2025-02-13T17:30:00Z',
+    updatedAt: '2025-02-13T17:30:00Z',
+    isClosed: false,
+    numberOfSubmissions: 0,
+    status: TallyFormStatus.PUBLISHED,
+    workspaceId: 'ws-123',
+    blocks: [
+      {
+        type: TallyBlockTypes.FORM_TITLE,
+        groupType: TallyBlockTypes.FORM_TITLE,
+        uuid: '1',
+        groupUuid: '1',
+        payload: {
+          html: 'Test Form',
+          button: {
+            label: 'Submit',
+          },
+        },
+      },
+    ],
+  },
+  error: null,
+}
+
+// Mock for list operation
+export const mockListResponse = {
+  data: {
+    items: [
+      {
+        id: '123',
+        name: 'Test Form',
+        createdAt: '2025-02-13T17:30:00Z',
+        updatedAt: '2025-02-13T17:30:00Z',
+        isClosed: false,
+        numberOfSubmissions: 0,
+        status: TallyFormStatus.PUBLISHED,
+        workspaceId: 'ws-123',
+      },
+    ],
+    total: 1,
+  },
+  error: null,
+}
+
+// Mock for empty list response
+export const mockEmptyListResponse = {
+  data: {
+    items: [],
+    total: 0,
+  },
+  error: null,
+}
+
+// Mock for delete operation
+export const mockDeleteResponse = {
+  data: null,
+  error: null,
+}
