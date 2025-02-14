@@ -1,9 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { TallyFormService } from '../services'
 import { HttpClient } from '../lib/httpClient'
-import { TallyInvalidRequestError } from '../lib/errors'
-import { TallyFormCreateDTO, TallyFormUpdateDTO } from '../types'
+import { TallyApiError, TallyInvalidRequestError, TallyUnknownError } from '../lib/errors'
+import { TallyFormUpdateDTO } from '../types'
 import { TallyBlockTypes, TallyFormStatus } from '../lib/constants'
+import { mockSimpleResponse, mockValidFormRequest } from './mocks'
 
 // Mock HttpClient
 const mockHttpClient = {
@@ -21,80 +22,42 @@ describe('TallyFormService', () => {
     vi.clearAllMocks()
   })
 
-  describe('create', () => {
-    const validForm: TallyFormCreateDTO = {
-      blocks: [
-        {
-          type: TallyBlockTypes.FORM_TITLE,
-          groupType: TallyBlockTypes.FORM_TITLE,
-          uuid: '1',
-          groupUuid: '1',
-          payload: {
-            html: 'Test Form',
-            button: {
-              label: 'Submit'
-            }
-          }
-        },
-        {
-          type: TallyBlockTypes.INPUT_TEXT,
-          groupType: TallyBlockTypes.QUESTION,
-          uuid: '2',
-          groupUuid: '2',
-          payload: {
-            isRequired: true,
-            name: 'name',
-            placeholder: 'Enter your name'
-          }
-        },
-        {
-          type: TallyBlockTypes.INPUT_EMAIL,
-          groupType: TallyBlockTypes.QUESTION,
-          uuid: '3',
-          groupUuid: '3',
-          payload: {
-            isRequired: true,
-            name: 'email',
-            placeholder: 'Enter your email'
-          }
-        }
-      ],
-      status: TallyFormStatus.DRAFT
-    }
-
+  describe('FormService.create', () => {
     it('should create a form successfully', async () => {
-      const mockResponse = {
-        data: {
-          id: '123',
-          name: 'Test Form',
-          createdAt: '2025-02-13T17:30:00Z',
-          updatedAt: '2025-02-13T17:30:00Z',
-          isClosed: false,
-          numberOfSubmissions: 0,
-          status: TallyFormStatus.DRAFT,
-          workspaceId: 'ws-123'
-        },
-        error: null,
-      }
-      mockHttpClient.post.mockResolvedValue(mockResponse)
+      mockHttpClient.post = vi.fn().mockResolvedValue(mockSimpleResponse)
 
-      const result = await formService.create(validForm)
-      expect(result).toEqual(mockResponse)
-      expect(mockHttpClient.post).toHaveBeenCalledWith('/forms', validForm)
+      const result = await formService.create(mockValidFormRequest)
+      expect(result).toEqual(mockSimpleResponse)
+      expect(mockHttpClient.post).toHaveBeenCalledWith('/forms', mockValidFormRequest)
     })
 
     it('should throw error when form is not provided', async () => {
       await expect(formService.create(undefined as any)).rejects.toThrow(
-        new TallyInvalidRequestError('Missing request param: form')
+        new TallyInvalidRequestError('Missing request param: form'),
       )
     })
 
     it('should handle API error', async () => {
-      const mockError = { code: 'ERROR', message: 'API Error', __isTallyError: true }
-      mockHttpClient.post.mockRejectedValue(mockError)
+      const mockError = new TallyApiError('Internal Server error', 500)
+      mockHttpClient.post = vi.fn().mockRejectedValue(mockError)
 
-      const result = await formService.create(validForm)
+      const result = await formService.create(mockValidFormRequest)
       expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any API error, even unknowns', async () => {
+      const mockError = new TallyUnknownError('Unkown Api Error for Test', new Error('Test'))
+      mockHttpClient.post = vi.fn().mockRejectedValue(mockError)
+
+      const result = await formService.create(mockValidFormRequest)
+      expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any unknown error', async () => {
+      const mockError = new Error('Unknown error')
+      mockHttpClient.post = vi.fn().mockRejectedValue(mockError)
+
+      await expect(formService.create(mockValidFormRequest)).rejects.toThrow(mockError)
     })
   })
 
@@ -119,11 +82,11 @@ describe('TallyFormService', () => {
               payload: {
                 html: 'Test Form',
                 button: {
-                  label: 'Submit'
-                }
-              }
-            }
-          ]
+                  label: 'Submit',
+                },
+              },
+            },
+          ],
         },
         error: null,
       }
@@ -136,7 +99,7 @@ describe('TallyFormService', () => {
 
     it('should throw error when formId is not provided', async () => {
       await expect(formService.get('')).rejects.toThrow(
-        new TallyInvalidRequestError('Missing request param: formId')
+        new TallyInvalidRequestError('Missing request param: formId'),
       )
     })
   })
@@ -154,10 +117,10 @@ describe('TallyFormService', () => {
               isClosed: false,
               numberOfSubmissions: 0,
               status: TallyFormStatus.PUBLISHED,
-              workspaceId: 'ws-123'
-            }
+              workspaceId: 'ws-123',
+            },
           ],
-          total: 1
+          total: 1,
         },
         error: null,
       }
@@ -172,7 +135,7 @@ describe('TallyFormService', () => {
       const mockResponse = {
         data: {
           items: [],
-          total: 0
+          total: 0,
         },
         error: null,
       }
@@ -185,7 +148,7 @@ describe('TallyFormService', () => {
 
     it('should throw error when page is not an integer', async () => {
       await expect(formService.list(1.5)).rejects.toThrow(
-        new TallyInvalidRequestError('Page parameter must be an integer')
+        new TallyInvalidRequestError('Page parameter must be an integer'),
       )
     })
 
@@ -211,12 +174,12 @@ describe('TallyFormService', () => {
           payload: {
             html: 'Updated Form',
             button: {
-              label: 'Submit'
-            }
-          }
-        }
+              label: 'Submit',
+            },
+          },
+        },
       ],
-      status: TallyFormStatus.PUBLISHED
+      status: TallyFormStatus.PUBLISHED,
     }
 
     it('should update a form successfully', async () => {
@@ -229,7 +192,7 @@ describe('TallyFormService', () => {
           isClosed: false,
           numberOfSubmissions: 0,
           status: TallyFormStatus.PUBLISHED,
-          workspaceId: 'ws-123'
+          workspaceId: 'ws-123',
         },
         error: null,
       }
@@ -242,7 +205,7 @@ describe('TallyFormService', () => {
 
     it('should throw error when form is not provided', async () => {
       await expect(formService.update(undefined as any)).rejects.toThrow(
-        new TallyInvalidRequestError('Missing request parameters: form')
+        new TallyInvalidRequestError('Missing request parameters: form'),
       )
     })
 

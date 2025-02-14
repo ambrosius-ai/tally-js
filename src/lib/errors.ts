@@ -25,7 +25,7 @@ export class TallyApiError extends TallyError {
 
 export class TallyInvalidRequestError extends TallyError {}
 
-export class TallyUnknowError extends TallyError {
+export class TallyUnknownError extends TallyError {
   originError: unknown
   constructor(message: string, originalError: unknown) {
     super(message)
