@@ -2,9 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { TallyFormService } from '../services'
 import { HttpClient } from '../lib/httpClient'
 import { TallyApiError, TallyInvalidRequestError, TallyUnknownError } from '../lib/errors'
-import { TallyFormUpdateDTO } from '../types'
-import { TallyBlockTypes, TallyFormStatus } from '../lib/constants'
-import { mockSimpleResponse, mockValidFormRequest } from './mocks'
+import { mockSimpleResponse, mockValidFormRequest, mockGetResponse, mockListResponse, mockEmptyListResponse, mockUpdateResponse, mockValidUpdateRequest, mockDeleteResponse } from './mocks'
 
 // Mock HttpClient
 const mockHttpClient = {
@@ -61,39 +59,12 @@ describe('TallyFormService', () => {
     })
   })
 
-  describe('get', () => {
+  describe('FormService.get', () => {
     it('should get a form successfully', async () => {
-      const mockResponse = {
-        data: {
-          id: '123',
-          name: 'Test Form',
-          createdAt: '2025-02-13T17:30:00Z',
-          updatedAt: '2025-02-13T17:30:00Z',
-          isClosed: false,
-          numberOfSubmissions: 0,
-          status: TallyFormStatus.PUBLISHED,
-          workspaceId: 'ws-123',
-          blocks: [
-            {
-              type: TallyBlockTypes.FORM_TITLE,
-              groupType: TallyBlockTypes.FORM_TITLE,
-              uuid: '1',
-              groupUuid: '1',
-              payload: {
-                html: 'Test Form',
-                button: {
-                  label: 'Submit',
-                },
-              },
-            },
-          ],
-        },
-        error: null,
-      }
-      mockHttpClient.get.mockResolvedValue(mockResponse)
+      mockHttpClient.get = vi.fn().mockResolvedValue(mockGetResponse)
 
       const result = await formService.get('123')
-      expect(result).toEqual(mockResponse)
+      expect(result).toEqual(mockGetResponse)
       expect(mockHttpClient.get).toHaveBeenCalledWith('/forms/123')
     })
 
@@ -102,47 +73,45 @@ describe('TallyFormService', () => {
         new TallyInvalidRequestError('Missing request param: formId'),
       )
     })
+
+    it('should handle API error', async () => {
+      const mockError = { code: 'ERROR', message: 'Internal Server error', __isTallyError: true }
+      mockHttpClient.get = vi.fn().mockRejectedValue(mockError)
+
+      const result = await formService.get('123')
+      expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any API error, even unknowns', async () => {
+      const mockError = { code: 'ERROR', message: 'Unknown Api Error for Test', __isTallyError: true }
+      mockHttpClient.get = vi.fn().mockRejectedValue(mockError)
+
+      const result = await formService.get('123')
+      expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any unknown error', async () => {
+      const mockError = new Error('Unknown error')
+      mockHttpClient.get = vi.fn().mockRejectedValue(mockError)
+
+      await expect(formService.get('123')).rejects.toThrow(mockError)
+    })
   })
 
-  describe('list', () => {
+  describe('FormService.list', () => {
     it('should list forms without page parameter', async () => {
-      const mockResponse = {
-        data: {
-          items: [
-            {
-              id: '123',
-              name: 'Test Form',
-              createdAt: '2025-02-13T17:30:00Z',
-              updatedAt: '2025-02-13T17:30:00Z',
-              isClosed: false,
-              numberOfSubmissions: 0,
-              status: TallyFormStatus.PUBLISHED,
-              workspaceId: 'ws-123',
-            },
-          ],
-          total: 1,
-        },
-        error: null,
-      }
-      mockHttpClient.get.mockResolvedValue(mockResponse)
+      mockHttpClient.get = vi.fn().mockResolvedValue(mockListResponse)
 
       const result = await formService.list()
-      expect(result).toEqual(mockResponse)
+      expect(result).toEqual(mockListResponse)
       expect(mockHttpClient.get).toHaveBeenCalledWith('/forms')
     })
 
     it('should list forms with valid page parameter', async () => {
-      const mockResponse = {
-        data: {
-          items: [],
-          total: 0,
-        },
-        error: null,
-      }
-      mockHttpClient.get.mockResolvedValue(mockResponse)
+      mockHttpClient.get = vi.fn().mockResolvedValue(mockEmptyListResponse)
 
       const result = await formService.list(2)
-      expect(result).toEqual(mockResponse)
+      expect(result).toEqual(mockEmptyListResponse)
       expect(mockHttpClient.get).toHaveBeenCalledWith('/forms?page=2')
     })
 
@@ -153,11 +122,26 @@ describe('TallyFormService', () => {
     })
 
     it('should handle API error', async () => {
-      const mockError = { code: 'ERROR', message: 'API Error', __isTallyError: true }
-      mockHttpClient.get.mockRejectedValue(mockError)
+      const mockError = new TallyApiError('Internal Server error', 500)
+      mockHttpClient.get = vi.fn().mockRejectedValue(mockError)
 
       const result = await formService.list(1)
       expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any API error, even unknowns', async () => {
+      const mockError = new TallyUnknownError('Unknown Api Error for Test', new Error('Test'))
+      mockHttpClient.get = vi.fn().mockRejectedValue(mockError)
+
+      const result = await formService.list(1)
+      expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any unknown error', async () => {
+      const mockError = new Error('Unknown error')
+      mockHttpClient.get = vi.fn().mockRejectedValue(mockError)
+
+      await expect(formService.list(1)).rejects.toThrow(mockError)
     })
   })
 
@@ -200,16 +184,12 @@ describe('TallyFormService', () => {
     })
   })
 
-  describe('delete', () => {
+  describe('FormService.delete', () => {
     it('should delete a form successfully', async () => {
-      const mockResponse = {
-        data: null,
-        error: null,
-      }
-      mockHttpClient.delete.mockResolvedValue(mockResponse)
+      mockHttpClient.delete = vi.fn().mockResolvedValue(mockDeleteResponse)
 
       const result = await formService.delete('123')
-      expect(result).toEqual(mockResponse)
+      expect(result).toEqual(mockDeleteResponse)
       expect(mockHttpClient.delete).toHaveBeenCalledWith('/forms/123')
     })
 
@@ -221,11 +201,26 @@ describe('TallyFormService', () => {
     })
 
     it('should handle API error', async () => {
-      const mockError = { code: 'ERROR', message: 'API Error', __isTallyError: true }
-      mockHttpClient.delete.mockRejectedValue(mockError)
+      const mockError = new TallyApiError('Internal Server error', 500)
+      mockHttpClient.delete = vi.fn().mockRejectedValue(mockError)
 
       const result = await formService.delete('123')
       expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any API error, even unknowns', async () => {
+      const mockError = new TallyUnknownError('Unknown Api Error for Test', new Error('Test'))
+      mockHttpClient.delete = vi.fn().mockRejectedValue(mockError)
+
+      const result = await formService.delete('123')
+      expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any unknown error', async () => {
+      const mockError = new Error('Unknown error')
+      mockHttpClient.delete = vi.fn().mockRejectedValue(mockError)
+
+      await expect(formService.delete('123')).rejects.toThrow(mockError)
     })
   })
 })

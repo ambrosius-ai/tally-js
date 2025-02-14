@@ -37,9 +37,16 @@ export class TallyFormService {
     formId: string,
   ): Promise<{ data: TallyFormFullResponseDTO | null; error: TallyError | null }> {
     if (!formId) throw new TallyInvalidRequestError('Missing request param: formId')
-    const { data, error } = await this.#httpClient.get(`/forms/${formId}`)
-    const formData = data ? (data as TallyFormFullResponseDTO) : null
-    return { data: formData, error }
+    try {
+      const { data, error: httpError } = await this.#httpClient.get(`/forms/${formId}`)
+      const formData = data ? (data as TallyFormFullResponseDTO) : null
+      return { data: formData, error: httpError }
+    } catch (error) {
+      if (isTallyError(error)) {
+        return { data: null, error }
+      }
+      throw error
+    }
   }
 
   async list(
