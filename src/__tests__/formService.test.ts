@@ -161,46 +161,13 @@ describe('TallyFormService', () => {
     })
   })
 
-  describe('update', () => {
-    const validUpdateForm: TallyFormUpdateDTO = {
-      id: '123',
-      name: 'Updated Form',
-      blocks: [
-        {
-          type: TallyBlockTypes.FORM_TITLE,
-          groupType: TallyBlockTypes.FORM_TITLE,
-          uuid: '1',
-          groupUuid: '1',
-          payload: {
-            html: 'Updated Form',
-            button: {
-              label: 'Submit',
-            },
-          },
-        },
-      ],
-      status: TallyFormStatus.PUBLISHED,
-    }
-
+  describe('FormService.update', () => {
     it('should update a form successfully', async () => {
-      const mockResponse = {
-        data: {
-          id: '123',
-          name: 'Updated Form',
-          createdAt: '2025-02-13T17:30:00Z',
-          updatedAt: '2025-02-13T17:31:00Z',
-          isClosed: false,
-          numberOfSubmissions: 0,
-          status: TallyFormStatus.PUBLISHED,
-          workspaceId: 'ws-123',
-        },
-        error: null,
-      }
-      mockHttpClient.patch.mockResolvedValue(mockResponse)
+      mockHttpClient.patch = vi.fn().mockResolvedValue(mockUpdateResponse)
 
-      const result = await formService.update(validUpdateForm)
-      expect(result).toEqual(mockResponse)
-      expect(mockHttpClient.patch).toHaveBeenCalledWith('/forms/123', validUpdateForm)
+      const result = await formService.update(mockValidUpdateRequest)
+      expect(result).toEqual(mockUpdateResponse)
+      expect(mockHttpClient.patch).toHaveBeenCalledWith('/forms/123', mockValidUpdateRequest)
     })
 
     it('should throw error when form is not provided', async () => {
@@ -210,11 +177,26 @@ describe('TallyFormService', () => {
     })
 
     it('should handle API error', async () => {
-      const mockError = { code: 'ERROR', message: 'API Error', __isTallyError: true }
-      mockHttpClient.patch.mockRejectedValue(mockError)
+      const mockError = new TallyApiError('Internal Server error', 500)
+      mockHttpClient.patch = vi.fn().mockRejectedValue(mockError)
 
-      const result = await formService.update(validUpdateForm)
+      const result = await formService.update(mockValidUpdateRequest)
       expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any API error, even unknowns', async () => {
+      const mockError = new TallyUnknownError('Unknown Api Error for Test', new Error('Test'))
+      mockHttpClient.patch = vi.fn().mockRejectedValue(mockError)
+
+      const result = await formService.update(mockValidUpdateRequest)
+      expect(result).toEqual({ data: null, error: mockError })
+    })
+
+    it('should handle any unknown error', async () => {
+      const mockError = new Error('Unknown error')
+      mockHttpClient.patch = vi.fn().mockRejectedValue(mockError)
+
+      await expect(formService.update(mockValidUpdateRequest)).rejects.toThrow(mockError)
     })
   })
 
