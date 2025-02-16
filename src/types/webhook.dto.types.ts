@@ -3,10 +3,14 @@ export interface HttpHeader {
   value: string
 }
 
+export enum TallyWebhookEventType {
+  FORM_RESPONSE = 'FORM_RESPONSE',
+}
+
 export interface TallyWebhookCreateDTO {
-  formid: string
+  formId: string
   url: string
-  eventTypes: 'FORM_RESPONSE'[]
+  eventTypes: TallyWebhookEventType[]
   signingSecret?: string | null
   httpHeaders?: HttpHeader[] | null
   externalSubscriber?: string
