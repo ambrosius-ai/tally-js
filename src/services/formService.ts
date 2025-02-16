@@ -7,6 +7,7 @@ import {
 } from '../types'
 import { isTallyError, TallyError, TallyInvalidRequestError } from '../lib/errors'
 import { HttpClient } from '../lib/httpClient'
+import { fetchWrapper } from '../util/fetchUtil'
 
 export class TallyFormService {
   #httpClient: HttpClient
@@ -16,37 +17,18 @@ export class TallyFormService {
 
   async create(
     form: TallyFormCreateDTO,
-  ): Promise<{ data: TallyFormSimpleResponseDTO | null; error: Error | null }> {
+  ): Promise<{ data: TallyFormSimpleResponseDTO | null; error: TallyError | null }> {
     if (!form) throw new TallyInvalidRequestError('Missing request param: form')
-    try {
-      const { data, error: httpError } = await this.#httpClient.post<TallyFormCreateDTO>(
-        '/forms',
-        form,
-      )
-      const formData = data ? (data as TallyFormSimpleResponseDTO) : null
-      return { data: formData, error: httpError }
-    } catch (error) {
-      if (isTallyError(error)) {
-        return { data: null, error }
-      }
-      throw error
-    }
+    return fetchWrapper<TallyFormSimpleResponseDTO>(
+      this.#httpClient.post<TallyFormCreateDTO>('/forms', form),
+    )
   }
 
   async get(
     formId: string,
   ): Promise<{ data: TallyFormFullResponseDTO | null; error: TallyError | null }> {
     if (!formId) throw new TallyInvalidRequestError('Missing request param: formId')
-    try {
-      const { data, error: httpError } = await this.#httpClient.get(`/forms/${formId}`)
-      const formData = data ? (data as TallyFormFullResponseDTO) : null
-      return { data: formData, error: httpError }
-    } catch (error) {
-      if (isTallyError(error)) {
-        return { data: null, error }
-      }
-      throw error
-    }
+    return fetchWrapper<TallyFormFullResponseDTO>(this.#httpClient.get(`/forms/${formId}`))
   }
 
   async list(
@@ -54,41 +36,22 @@ export class TallyFormService {
   ): Promise<{ data: TallyListDTO<TallyFormSimpleResponseDTO> | null; error: TallyError | null }> {
     if (page && !Number.isInteger(page))
       throw new TallyInvalidRequestError('Page parameter must be an integer')
-    try {
-      const pageUrl = !page ? '/forms' : `/forms?page=${page}`
-      const { data, error: httpError } = await this.#httpClient.get(pageUrl)
-      const formData = data ? (data as TallyListDTO<TallyFormSimpleResponseDTO>) : null
-      return { data: formData, error: httpError }
-    } catch (error) {
-      if (isTallyError(error)) {
-        return { data: null, error }
-      }
-      throw error
-    }
+    const pageUrl = !page ? '/forms' : `/forms?page=${page}`
+    return fetchWrapper<TallyListDTO<TallyFormSimpleResponseDTO>>(this.#httpClient.get(pageUrl))
   }
 
   async update(
     form: TallyFormUpdateDTO,
   ): Promise<{ data: TallyFormSimpleResponseDTO | null; error: TallyError | null }> {
     if (!form) throw new TallyInvalidRequestError('Missing request parameters: form')
-    try {
-      const { data, error: httpError } = await this.#httpClient.patch<TallyFormUpdateDTO>(
-        `/forms/${form.id}`,
-        form,
-      )
-      const formData = data ? (data as TallyFormSimpleResponseDTO) : null
-      return { data: formData, error: httpError }
-    } catch (error) {
-      if (isTallyError(error)) {
-        return { data: null, error }
-      }
-      throw error
-    }
+    return fetchWrapper<TallyFormSimpleResponseDTO>(
+      this.#httpClient.patch<TallyFormUpdateDTO>(`/forms/${form.id}`, form),
+    )
   }
 
   async delete(formId: string): Promise<{ data: null; error: TallyError | null }> {
+    if (!formId) throw new TallyInvalidRequestError('Missing request parameter: formId')
     try {
-      if (!formId) throw new TallyInvalidRequestError('Missing request parameter: formId')
       const { data, error: httpError } = await this.#httpClient.delete(`/forms/${formId}`)
       return { data, error: httpError } // not success data. both undefined in case of success
     } catch (error) {

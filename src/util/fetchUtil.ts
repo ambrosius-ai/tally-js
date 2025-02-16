@@ -1,11 +1,10 @@
-import { HttpResponse, isTallyError } from '../lib'
+import { HttpResponse, isTallyError, TallyError } from '../lib'
 
 export async function fetchWrapper<T>(
   request: Promise<HttpResponse<any>>,
-): Promise<{ data: T | null; error: Error | null }> {
+): Promise<{ data: T | null; error: TallyError | null }> {
   try {
     const { data, error: httpError } = await request
-    console.log('fetchWrapper', httpError)
     const responseData = data ? (data as T) : null
     return { data: responseData, error: httpError }
   } catch (error) {

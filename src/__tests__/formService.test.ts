@@ -2,7 +2,16 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { TallyFormService } from '../services'
 import { HttpClient } from '../lib/httpClient'
 import { TallyApiError, TallyInvalidRequestError, TallyUnknownError } from '../lib/errors'
-import { mockSimpleResponse, mockValidFormRequest, mockGetResponse, mockListResponse, mockEmptyListResponse, mockUpdateResponse, mockValidUpdateRequest, mockDeleteResponse } from './mocks'
+import {
+  mockSimpleResponse,
+  mockValidFormRequest,
+  mockGetResponse,
+  mockListResponse,
+  mockEmptyListResponse,
+  mockUpdateResponse,
+  mockValidUpdateRequest,
+  mockDeleteResponse,
+} from './mocks'
 
 // Mock HttpClient
 const mockHttpClient = {
@@ -85,7 +94,11 @@ describe('TallyFormService', () => {
     })
 
     it('should handle any API error, even unknowns', async () => {
-      const mockError = { code: 'ERROR', message: 'Unknown Api Error for Test', __isTallyError: true }
+      const mockError = {
+        code: 'ERROR',
+        message: 'Unknown Api Error for Test',
+        __isTallyError: true,
+      }
       mockHttpClient.get = vi.fn().mockRejectedValue(mockError)
 
       const result = await formService.get('123')
@@ -195,11 +208,10 @@ describe('TallyFormService', () => {
       expect(mockHttpClient.delete).toHaveBeenCalledWith('/forms/123')
     })
 
-    it('should return error when formId is not provided', async () => {
-      const result = await formService.delete('')
-      expect(result.error).toBeInstanceOf(TallyInvalidRequestError)
-      expect(result.error?.message).toBe('Missing request parameter: formId')
-      expect(result.data).toBeNull()
+    it('should throw error when formId is not provided', async () => {
+      await expect(formService.delete('')).rejects.toThrow(
+        new TallyInvalidRequestError('Missing request parameter: formId'),
+      )
     })
 
     it('should handle API error', async () => {
