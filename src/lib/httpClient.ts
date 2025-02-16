@@ -1,4 +1,4 @@
-import { TallyApiError, TallyError, TallyUnknowError } from './errors'
+import { TallyApiError, TallyError, TallyUnknownError } from './errors'
 
 // Types for the HTTP client abstraction
 export interface HttpResponse<T> {
@@ -38,7 +38,7 @@ export class FetchHttpClient implements HttpClient {
       error = !response.ok ? new TallyApiError(response.statusText, response.status) : null
     } catch (unknownError: unknown) {
       data = null
-      error = new TallyUnknowError('Unknown API Error', unknownError)
+      error = new TallyUnknownError('Unknown API Error', unknownError)
     } finally {
       return { data, error }
     }
