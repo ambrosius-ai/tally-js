@@ -2,7 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { TallyWebhookService } from '../services'
 import { HttpClient } from '../lib/httpClient'
 import { TallyApiError, TallyInvalidRequestError, TallyUnknownError } from '../lib/errors'
-import { mockWebhookCreateRequest, mockWebhookUpdateRequest, mockWebhookResponse } from './mocks/webhook.mock'
+import {
+  mockWebhookCreateRequest,
+  mockWebhookUpdateRequest,
+  mockWebhookResponse,
+  mockWebhookUpdateResponse,
+} from './mocks/webhook.mock'
 
 // Mock HttpClient
 const mockHttpClient = {
@@ -22,11 +27,10 @@ describe('TallyWebhookService', () => {
 
   describe('WebhookService.create', () => {
     it('should create a webhook successfully', async () => {
-      mockHttpClient.post = vi.fn().mockResolvedValue(mockWebhookResponse)
-      const fixMockWebhookResponse = { ...mockWebhookResponse }
-
+      // mutations to the mocked object are recognized this way
+      mockHttpClient.post = vi.fn().mockResolvedValue({ ...mockWebhookResponse })
       const result = await webhookService.create(mockWebhookCreateRequest)
-      expect(result).toEqual(fixMockWebhookResponse)
+      expect(result).toEqual(mockWebhookResponse)
       expect(mockHttpClient.post).toHaveBeenCalledWith('/webhooks', mockWebhookCreateRequest)
     })
 
@@ -52,7 +56,7 @@ describe('TallyWebhookService', () => {
       expect(result).toEqual({ data: null, error: mockError })
     })
 
-    it('should handle any unknown error', async () => {
+    it('should throw any unknown error', async () => {
       const mockError = new Error('Unknown error')
       mockHttpClient.post = vi.fn().mockRejectedValue(mockError)
 
@@ -62,10 +66,10 @@ describe('TallyWebhookService', () => {
 
   describe('WebhookService.update', () => {
     it('should update a webhook successfully', async () => {
-      mockHttpClient.patch = vi.fn().mockResolvedValue(mockWebhookResponse)
+      mockHttpClient.patch = vi.fn().mockResolvedValue({ ...mockWebhookUpdateResponse })
 
       const result = await webhookService.update(mockWebhookUpdateRequest)
-      expect(result).toEqual(mockWebhookResponse)
+      expect(result).toEqual(mockWebhookUpdateResponse)
       expect(mockHttpClient.patch).toHaveBeenCalledWith(
         `/webhooks/${mockWebhookUpdateRequest.id}`,
         mockWebhookUpdateRequest,
