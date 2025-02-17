@@ -25,6 +25,7 @@ export interface TallyWebhookResponseDTO {
 }
 
 export interface TallyWebhookUpdateDTO {
+  id: string
   formId: string
   url: string
   eventTypes: 'FORM_RESPONSE'[]
