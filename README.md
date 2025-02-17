@@ -23,15 +23,15 @@ This wrapper uses a three-layer architecture for maximum type safety and flexibi
 2. **Domain Interfaces**
 
    - Enhanced types for better developer experience
-   - Transformed properties (e.g., string dates to Date objects)
-   - Defined relationships between types
-   <!-- - Example: `User` interface with `createdAt` as Date -->
+   <!-- - Transformed properties (e.g., string dates to Date objects)
+   - Defined relationships between types -->
+   - Example: `TallyForm` interface with `addBlock` function
 
 3. **Models**
    - Concrete implementations of domain interfaces
    - Handle DTO to domain model transformation
-   - Provide additional functionality
-   - Example: `FormModel` with methods like `addBlock()`
+   <!-- - Provide additional functionality
+   - Example: `FormModel` with methods like `addBlock()` -->
 
 ## Quick Start
 
@@ -44,7 +44,6 @@ const tally = new TallyClient({
 
 // Access data
 const { data: form, error } = await tally.forms.get('form-id')
-
 console.log(form)
 ```
 
@@ -70,8 +69,6 @@ class UserModel implements User {
   // Implementation with additional methods
 }
 ``` -->
-
-k
 
 ## Examples
 
@@ -107,7 +104,7 @@ newForm.addBlock(titleBlock)
 const { data: createdForm, error: createError } = await tally.forms.create(newForm)
 
 console.log(createdForm.id, createError)
-// should print the form id of the created form and undefined
+// should print the form id of the created form and null
 ```
 
 ### List Forms
@@ -127,6 +124,16 @@ do {
 } while (forms?.hasMore)
 ```
 
+### Creating a webhook
+
+```typescript
+const { data, error } = await tally.webhooks.create({
+  formId: createdForm?.id,
+  url: 'https://webhook.site/1b1b1b1b',
+  eventTypes: [TallyWebhookEventType.FORM_RESPONSE],
+})
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -143,23 +150,11 @@ tally-ts/
 ├── src/
 │ ├── client.ts
 │ ├── lib/
-│ │ ├── constants.ts
-│ │ └── errors.ts
-│ │ ├── httpClient.ts
 │ ├── models/
-│ │ ├── form.model.ts
-│ │ ├── payload.model.ts
-│ │ └── index.ts
 │ ├── services/
-│ │ ├── formService.ts
 │ ├── types/
-│ │ ├── form.dto.types.ts
-│ │ └── payload.dto.types.ts
 │ ├── util/
-│ │ ├── createModel.ts
-│ │ ├── initBlock.ts
-├── **tests**/
-│ ├── WIP
+├── __tests__/
 
 ```
 
