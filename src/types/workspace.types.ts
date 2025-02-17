@@ -34,5 +34,6 @@ export interface TallyWorkspaceCreateDTO {
 }
 
 export interface TallyWorkspaceUpdateDTO {
+  id: string
   name: string
 }

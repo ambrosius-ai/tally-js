@@ -27,7 +27,9 @@ export class TallyWorkspaceService {
     workspaceId: string,
   ): Promise<{ data: TallyWorkspaceResponseDTO | null; error: TallyError | null }> {
     if (!workspaceId) throw new TallyInvalidRequestError('Missing request param: workspaceId')
-    return fetchWrapper<TallyWorkspaceResponseDTO>(this.#httpClient.get(`/workspaces/${workspaceId}`))
+    return fetchWrapper<TallyWorkspaceResponseDTO>(
+      this.#httpClient.get(`/workspaces/${workspaceId}`),
+    )
   }
 
   async list(
@@ -40,13 +42,11 @@ export class TallyWorkspaceService {
   }
 
   async update(
-    workspaceId: string,
     workspace: TallyWorkspaceUpdateDTO,
   ): Promise<{ data: TallyWorkspaceResponseDTO | null; error: TallyError | null }> {
-    if (!workspaceId) throw new TallyInvalidRequestError('Missing request parameter: workspaceId')
     if (!workspace) throw new TallyInvalidRequestError('Missing request parameters: workspace')
     return fetchWrapper<TallyWorkspaceResponseDTO>(
-      this.#httpClient.patch<TallyWorkspaceUpdateDTO>(`/workspaces/${workspaceId}`, workspace),
+      this.#httpClient.patch<TallyWorkspaceUpdateDTO>(`/workspaces/${workspace.id}`, workspace),
     )
   }
 

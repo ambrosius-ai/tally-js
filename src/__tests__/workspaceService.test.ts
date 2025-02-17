@@ -35,7 +35,10 @@ describe('TallyWorkspaceService', () => {
 
       const result = await workspaceService.create(mockValidWorkspaceCreateRequest)
       expect(result).toEqual(fixMockWorkspaceResponse)
-      expect(mockHttpClient.post).toHaveBeenCalledWith('/workspaces', mockValidWorkspaceCreateRequest)
+      expect(mockHttpClient.post).toHaveBeenCalledWith(
+        '/workspaces',
+        mockValidWorkspaceCreateRequest,
+      )
     })
 
     it('should throw error when workspace is not provided', async () => {
@@ -64,7 +67,9 @@ describe('TallyWorkspaceService', () => {
       const mockError = new Error('Unknown error')
       mockHttpClient.post = vi.fn().mockRejectedValue(mockError)
 
-      await expect(workspaceService.create(mockValidWorkspaceCreateRequest)).rejects.toThrow(mockError)
+      await expect(workspaceService.create(mockValidWorkspaceCreateRequest)).rejects.toThrow(
+        mockError,
+      )
     })
   })
 
@@ -162,22 +167,16 @@ describe('TallyWorkspaceService', () => {
     it('should update a workspace successfully', async () => {
       mockHttpClient.patch = vi.fn().mockResolvedValue(mockWorkspaceUpdateResponse)
 
-      const result = await workspaceService.update('ws-123', mockValidWorkspaceUpdateRequest)
+      const result = await workspaceService.update(mockValidWorkspaceUpdateRequest)
       expect(result).toEqual(mockWorkspaceUpdateResponse)
       expect(mockHttpClient.patch).toHaveBeenCalledWith(
-        '/workspaces/ws-123',
+        '/workspaces/ws-updated-123',
         mockValidWorkspaceUpdateRequest,
       )
     })
 
-    it('should throw error when workspaceId is not provided', async () => {
-      await expect(workspaceService.update('', mockValidWorkspaceUpdateRequest)).rejects.toThrow(
-        new TallyInvalidRequestError('Missing request parameter: workspaceId'),
-      )
-    })
-
     it('should throw error when workspace is not provided', async () => {
-      await expect(workspaceService.update('ws-123', undefined as any)).rejects.toThrow(
+      await expect(workspaceService.update(undefined as any)).rejects.toThrow(
         new TallyInvalidRequestError('Missing request parameters: workspace'),
       )
     })
@@ -186,7 +185,7 @@ describe('TallyWorkspaceService', () => {
       const mockError = new TallyApiError('Internal Server error', 500)
       mockHttpClient.patch = vi.fn().mockRejectedValue(mockError)
 
-      const result = await workspaceService.update('ws-123', mockValidWorkspaceUpdateRequest)
+      const result = await workspaceService.update(mockValidWorkspaceUpdateRequest)
       expect(result).toEqual({ data: null, error: mockError })
     })
 
@@ -194,7 +193,7 @@ describe('TallyWorkspaceService', () => {
       const mockError = new TallyUnknownError('Unknown Api Error for Test', new Error('Test'))
       mockHttpClient.patch = vi.fn().mockRejectedValue(mockError)
 
-      const result = await workspaceService.update('ws-123', mockValidWorkspaceUpdateRequest)
+      const result = await workspaceService.update(mockValidWorkspaceUpdateRequest)
       expect(result).toEqual({ data: null, error: mockError })
     })
 
@@ -202,9 +201,9 @@ describe('TallyWorkspaceService', () => {
       const mockError = new Error('Unknown error')
       mockHttpClient.patch = vi.fn().mockRejectedValue(mockError)
 
-      await expect(
-        workspaceService.update('ws-123', mockValidWorkspaceUpdateRequest),
-      ).rejects.toThrow(mockError)
+      await expect(workspaceService.update(mockValidWorkspaceUpdateRequest)).rejects.toThrow(
+        mockError,
+      )
     })
   })
 

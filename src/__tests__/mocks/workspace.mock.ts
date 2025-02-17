@@ -40,6 +40,7 @@ export const mockValidWorkspaceCreateRequest = {
 
 export const mockValidWorkspaceUpdateRequest = {
   name: 'Updated Workspace',
+  id: 'ws-updated-123',
 }
 
 export const mockWorkspaceUpdateResponse = {
