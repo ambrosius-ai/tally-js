@@ -4,6 +4,8 @@
 
 A type-safe and developer-friendly TypeScript wrapper for the tally.so API.
 
+> **Disclaimer**: The Tally.so API is currently in Private Beta and might be subject to change. You need to sign up for the Beta to get access.
+
 ## Installation
 
 ```bash
