@@ -14,26 +14,37 @@ npm install tally-ts
 
 ## Core Concepts
 
-This wrapper uses a three-layer architecture for maximum type safety and flexibility:
+- A tally client provides access to all endpoints of the Tally.so API by exposing services
+- Service endpoints always return a response with
 
-1. **DTOs** (Data Transfer Objects)
+  ```javascript
+  {
+    data: TallyDTO | null,
+    error: Error | null
+  }
+  ```
 
-   - Raw API response types
-   - Match the exact structure of the API responses
-   <!-- - Example: `FormDTO` with `created_at` as string -->
+- This wrapper uses a three-layer architecture for maximum type safety and flexibility:
 
-2. **Domain Interfaces**
+  1. **DTOs** (Data Transfer Objects)
 
-   - Enhanced types for better developer experience
-   <!-- - Transformed properties (e.g., string dates to Date objects)
-   - Defined relationships between types -->
-   - Example: `TallyForm` interface with `addBlock` function
+     - Raw API response types
+     - Match the exact structure of the API responses
+     <!-- - Example: `FormDTO` with `created_at` as string -->
 
-3. **Models**
-   - Concrete implementations of domain interfaces
-   - Handle DTO to domain model transformation
-   <!-- - Provide additional functionality
-   - Example: `FormModel` with methods like `addBlock()` -->
+  2. **Domain Interfaces**
+
+     - Enhanced types for better developer experience
+     <!-- - Transformed properties (e.g., string dates to Date objects)
+     - Defined relationships between types -->
+     - Example: `TallyForm` interface with `addBlock` function
+
+  3. **Models**
+
+     - Concrete implementations of domain interfaces
+     - Handle DTO to domain model transformation
+     <!-- - Provide additional functionality
+     - Example: `FormModel` with methods like `addBlock()` -->
 
 ## Quick Start
 

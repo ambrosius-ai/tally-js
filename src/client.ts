@@ -2,6 +2,7 @@ import { TallyFormService } from './services/formService'
 import { FetchHttpClient, HttpClient } from './lib/httpClient'
 import { TallyInvalidClientConfigError } from './lib'
 import { TallySubmissionService, TallyWebhookService, TallyWorkspaceService } from './services'
+import { TallyUserService } from './services/userService'
 
 export class TallyClient {
   #httpClient: HttpClient
@@ -9,6 +10,7 @@ export class TallyClient {
   readonly webhooks: TallyWebhookService
   readonly workspaces: TallyWorkspaceService
   readonly submissions: TallySubmissionService
+  readonly users: TallyUserService
 
   constructor(apiKey: string, baseUrl: string, version?: string) {
     if (!this.validateApiKey(apiKey)) {
@@ -33,6 +35,7 @@ export class TallyClient {
       this.webhooks = new TallyWebhookService(this.#httpClient)
       this.workspaces = new TallyWorkspaceService(this.#httpClient)
       this.submissions = new TallySubmissionService(this.#httpClient)
+      this.users = new TallyUserService(this.#httpClient)
     } catch (error) {
       throw new TallyInvalidClientConfigError('Failed to initialize TallyClient: ' + error)
     }
