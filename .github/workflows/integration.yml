@@ -34,5 +34,5 @@ jobs:
         run: |
           cd tests/integration
           npm ci
-          npm install ../../tally-ts-1.0.0.tgz
+          npm install ../../tally-js-1.0.0.tgz
           npm run test:coverage
