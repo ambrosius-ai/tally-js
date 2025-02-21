@@ -1,0 +1,52 @@
+name: Complete test suite
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  prepare:
+    uses: ./.github/workflows/prepare.yml
+
+  integration:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+    env:
+      TALLY_API_KEY: ${{ secrets.TALLY_API_KEY }} # Set from GitHub repository secrets
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ needs.prepare.outputs.cache-key }}
+
+      - name: Build module
+        run: npm run build
+
+      - name: Create local npm package
+        run: npm pack
+
+      - name: Install package for integration tests
+        run: |
+          cd tests/integration
+          npm ci
+          npm install ../../tally-js-1.0.0.tgz
+
+      - name: Run complete test suite
+        run: |
+          npm run test:coverage
+          cd $GITHUB_WORKSPACE
