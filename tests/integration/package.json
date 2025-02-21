@@ -1,5 +1,5 @@
 {
-  "name": "tally-ts-integration-tests",
+  "name": "tally-js-integration-tests",
   "private": true,
   "type": "module",
   "scripts": {
