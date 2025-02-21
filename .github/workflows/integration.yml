@@ -14,7 +14,7 @@ jobs:
       matrix:
         node-version: [22.x]
     env:
-      qAPI_KEY: ${{ secrets.TALLY_API_KEY }} # Set from GitHub repository secrets
+      TALLY_API_KEY: ${{ secrets.TALLY_API_KEY }} # Set from GitHub repository secrets
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,5 +35,5 @@ jobs:
         run: |
           cd tests/integration
           npm ci
-          npm install ../tally-ts-1.0.0.tgz
-          npm run test:coverage
+          npm install ../../tally-js-1.0.0.tgz
+          npm run test
