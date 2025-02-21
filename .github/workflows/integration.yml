@@ -5,6 +5,7 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+  workflow_dispatch:
 
 jobs:
   integration:
@@ -13,7 +14,7 @@ jobs:
       matrix:
         node-version: [22.x]
     env:
-      TALLY_API_KEY: ${{ secrets.TALLY_API_KEY }} # Set from GitHub repository secrets
+      qAPI_KEY: ${{ secrets.TALLY_API_KEY }} # Set from GitHub repository secrets
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,9 +32,8 @@ jobs:
         run: npm pack
 
       - name: Run integration tests
-       run: |
-          WORKSPACE=$GITHUB_WORKSPACE
+        run: |
           cd tests/integration
           npm ci
-          npm install $WORKSPACE/tally-js-1.0.0.tgz
-          npm run test
+          npm install ../tally-ts-1.0.0.tgz
+          npm run test:coverage
