@@ -19,7 +19,6 @@ export class TallySubmissionService {
     if (!options) throw new TallyInvalidRequestError('Missing request param: options')
     if (!options.formId) throw new TallyInvalidRequestError('Missing request param: formId')
     const url = this.buildRequestUrl(options)
-    console.log(url)
     return fetchWrapper<TallySubmissionListDTO>(this.#httpClient.get(url))
   }
 

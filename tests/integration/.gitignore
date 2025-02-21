@@ -5,9 +5,6 @@ coverage/
 .env.*
 !.env.example
 
-# local package builds
-tally-js*.tgz
-
 # Editor directories and files
 .vscode
 .vscode/*
