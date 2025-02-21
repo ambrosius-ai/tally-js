@@ -14,7 +14,7 @@ npm install tally-ts
 
 ## Core Concepts
 
-- A tally client provides access to all endpoints of the Tally.so API by exposing services
+- This tally client provides access to all endpoints of the Tally.so API by exposing services
 - Service endpoints always return a response with
 
   ```javascript
@@ -24,7 +24,7 @@ npm install tally-ts
   }
   ```
 
-- This wrapper uses a three-layer architecture for maximum type safety and flexibility:
+- Wrapper uses a three-layer architecture for maximum type safety and flexibility:
 
   1. **DTOs** (Data Transfer Objects)
 

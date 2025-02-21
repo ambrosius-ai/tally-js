@@ -1,0 +1,16 @@
+{
+  "name": "tally-ts-integration-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.2"
+  },
+  "dependencies": {
+    "tally-js": "file:../../tally-js-1.0.0.tgz"
+  }
+}

@@ -1,0 +1,35 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    env:
+      API_KEY: ${{ secrets.TALLY_API_KEY }} # Set from GitHub repository secrets
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Create package
+        run: npm pack
+
+      - name: Run integration tests
+        run: |
+          cd integration
+          npm ci
+          npm install ../tally-ts-1.0.0.tgz
+          npm test
