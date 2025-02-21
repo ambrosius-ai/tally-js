@@ -1,6 +1,6 @@
 {
   "name": "tally-js",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha",
   "description": "TypeScript wrapper for Tally.so API",
   "type": "module",
   "main": "./dist/index.es.js",
