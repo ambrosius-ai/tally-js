@@ -16,6 +16,8 @@ jobs:
     needs: [prepare, integration_test]
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
+    env:
+      TALLY_API_KEY: ${{ secrets.TALLY_API_KEY }} # Set from GitHub repository secrets
 
     steps:
       - uses: actions/checkout@v4
