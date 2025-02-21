@@ -31,8 +31,9 @@ jobs:
         run: npm pack
 
       - name: Run integration tests
-        run: |
+       run: |
+          WORKSPACE=$GITHUB_WORKSPACE
           cd tests/integration
           npm ci
-          npm install ../../tally-js-1.0.0.tgz
-          npm run test:coverage
+          npm install $WORKSPACE/tally-js-1.0.0.tgz
+          npm run test
