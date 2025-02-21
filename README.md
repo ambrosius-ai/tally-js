@@ -1,6 +1,6 @@
-![logo](https://github.com/user-attachments/assets/b35d0e42-858a-4c9a-8488-e1769269dbd0)
+<!-- ![logo](https://github.com/user-attachments/assets/b35d0e42-858a-4c9a-8488-e1769269dbd0) -->
 
-# tally-ts
+# tally-js
 
 A type-safe and developer-friendly TypeScript wrapper for the tally.so API.
 
@@ -9,7 +9,7 @@ A type-safe and developer-friendly TypeScript wrapper for the tally.so API.
 ## Installation
 
 ```bash
-npm install tally-ts
+npm install tally-js
 ```
 
 ## Core Concepts
@@ -49,7 +49,7 @@ npm install tally-ts
 ## Quick Start
 
 ```typescript
-import { TallyClient } from 'tally-ts'
+import { TallyClient } from 'tally-js'
 
 const tally = new TallyClient({
   apiKey: 'your-api-key','https://api.tally.so'
@@ -96,7 +96,7 @@ import {
   TallyBlockTypes,
   initNewTallyBlock,
   TallyPayloadFormTitleDTO,
-} from 'tally-ts'
+} from 'tally-js'
 
 const newForm = new TallyFormModel(
   [], // no blocks - starting from scratch
@@ -159,7 +159,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ````
 
-tally-ts/
+tally-js/
 ├── src/
 │ ├── client.ts
 │ ├── lib/
