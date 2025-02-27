@@ -14,17 +14,18 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'tally-js',
       formats: ['es', 'cjs', 'umd'],
-      fileName: (format) => `index.${format}.js`,
+      fileName: (format) => format === 'es' ? 'index.mjs' : format === 'cjs' ? 'index.js' : `index.${format}.js`,
     },
     outDir: 'dist',
     sourcemap: true,
     target: 'esnext',
     rollupOptions: {
-      external: [], // Add external dependencies here when needed
+      external: ['uuid'],
       output: {
         globals: {
-          // Add global variables for external dependencies when needed
+          uuid: 'uuid'
         },
+        exports: 'named',
       },
     },
   },
