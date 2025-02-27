@@ -45,7 +45,7 @@ jobs:
         run: |
           cd tests/integration
           npm ci
-          npm install ../../tally-js-1.0.1-alpha.tgz
+          npm install ../../tally-js-1.0.1-alpha.2.tgz
 
       - name: Run complete test suite
         run: |

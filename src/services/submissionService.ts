@@ -1,11 +1,11 @@
-import { HttpClient } from '../lib'
-import { fetchWrapper } from '../util/fetchUtil'
-import { isTallyError, TallyError, TallyInvalidRequestError } from '../lib/errors'
+import { HttpClient } from '@/lib'
+import { fetchWrapper } from '@/util/fetchUtil'
+import { isTallyError, TallyError, TallyInvalidRequestError } from '@/lib/errors'
 import {
   TallySubmissionListDTO,
   TallySubmissionRequestDTO,
   TallySubmissionRequestFilter,
-} from '../types/submission.types'
+} from '@/types/submission.types'
 
 export class TallySubmissionService {
   #httpClient: HttpClient

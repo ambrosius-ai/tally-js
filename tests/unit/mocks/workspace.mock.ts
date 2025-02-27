@@ -1,4 +1,4 @@
-import { TallyWorkspaceResponseDTO } from '../../types'
+import { TallyWorkspaceResponseDTO } from '@/types'
 
 export const mockWorkspaceResponse: { data: TallyWorkspaceResponseDTO; error: null } = {
   data: {

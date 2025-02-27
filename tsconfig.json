@@ -19,8 +19,10 @@
     "outDir": "dist",
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true // Changed this instead of allowImportingTsExtensions
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"]
 }

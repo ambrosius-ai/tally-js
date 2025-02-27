@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { TallyUserService } from '../services/userService'
-import { HttpClient, TallyError } from '../lib'
+import { TallyUserService } from '@/services/userService'
+import { HttpClient, TallyError } from '@/lib'
 import { UserMock } from './mocks/user.mock'
 
 // Mock HttpClient

@@ -1,5 +1,5 @@
-import { createModel } from '../util/createModel'
-import * as payload from '../types/payload.dto.types'
+import { createModel } from '@/util/createModel'
+import * as payload from '@/types/payload.dto.types'
 
 export const TallyPayloadDividerModel = createModel<payload.TallyPayloadDividerDTO>()
 export const TallyPayloadTextModel = createModel<payload.TallyPayloadTextDTO>()

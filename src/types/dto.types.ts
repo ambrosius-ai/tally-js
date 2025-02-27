@@ -1,4 +1,4 @@
-import { TallyBlockTypes, TallyFormStatus } from '../lib/constants'
+import { TallyBlockTypes, TallyFormStatus } from '@/lib/constants'
 
 export interface ITallyLayoutPayload {
   columnListUuid?: string

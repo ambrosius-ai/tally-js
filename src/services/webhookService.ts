@@ -1,11 +1,11 @@
-import { TallyError, TallyInvalidRequestError } from '../lib/errors'
-import { HttpClient } from '../lib/httpClient'
+import { TallyError, TallyInvalidRequestError } from '@/lib/errors'
+import { HttpClient } from '@/lib/httpClient'
 import {
   TallyWebhookCreateDTO,
   TallyWebhookResponseDTO,
   TallyWebhookUpdateDTO,
-} from '../types/webhook.dto.types'
-import { fetchWrapper } from '../util/fetchUtil'
+} from '@/types/webhook.dto.types'
+import { fetchWrapper } from '@/util/fetchUtil'
 
 export class TallyWebhookService {
   #httpClient: HttpClient
