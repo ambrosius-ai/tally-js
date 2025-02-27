@@ -1,6 +1,6 @@
 // tests/integration/cjs/client.test.cjs
 const { describe, it, expect } = await import('vitest')
-const TallyClient = require('tally-js') // Note the .default here
+const { TallyClient } = await import('../../../dist/index.js')
 
 describe('API Client Integration (CommonJS)', () => {
   it('should successfully create client instance', () => {
