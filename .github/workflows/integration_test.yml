@@ -35,17 +35,27 @@ jobs:
             ~/.npm
           key: ${{ needs.prepare.outputs.cache-key }}
 
+      - name: Cleanup previous builds
+        run: |
+          rm -f *.tgz
+          rm -rf ./tally-js-*.tgz
+
       - name: Build module
         run: npm run build
 
       - name: Create local npm package
         run: npm pack
 
+      - name: Debug
+        run: |
+          npm cache clean --force
+          echo "Cache cleaned"
+
       - name: Install package for integration tests
         run: |
           cd tests/integration
           npm ci
-          npm install ../../tally-js-1.0.1-alpha.tgz
+          npm install ../../tally-js-1.0.1-alpha.2.tgz
 
       - name: Run complete test suite
         run: |

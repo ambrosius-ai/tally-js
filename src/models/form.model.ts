@@ -1,6 +1,6 @@
-import { createModel } from '../util/createModel'
-import { TallyFormStatus } from '../lib/constants'
-import { TallyFormBlockDTO, TallyFormSettingsDTO } from '../types/form.dto.types'
+import { createModel } from '@/util/createModel'
+import { TallyFormStatus } from '@/lib/constants'
+import { TallyFormBlockDTO, TallyFormSettingsDTO } from '@/types/form.dto.types'
 
 export class TallyFormModel {
   blocks: TallyFormBlockDTO[]

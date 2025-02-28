@@ -3,7 +3,7 @@ import {
   TallyWebhookResponseDTO,
   TallyWebhookUpdateDTO,
   TallyWebhookEventType,
-} from '../../types/webhook.dto.types'
+} from '@/types/webhook.dto.types'
 
 export const mockWebhookCreateRequest: TallyWebhookCreateDTO = {
   url: 'https://example.com/webhook',

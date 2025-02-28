@@ -1,6 +1,6 @@
-import { HttpClient, TallyError } from '../lib'
-import { TallyUserDTO } from '../types'
-import { fetchWrapper } from '../util'
+import { HttpClient, TallyError } from '@/lib'
+import { TallyUserDTO } from '@/types'
+import { fetchWrapper } from '@/util'
 
 export class TallyUserService {
   #httpClient: HttpClient

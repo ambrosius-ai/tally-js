@@ -3,10 +3,10 @@ import {
   TallyWorkspaceResponseDTO,
   TallyListDTO,
   TallyWorkspaceUpdateDTO,
-} from '../types'
-import { isTallyError, TallyError, TallyInvalidRequestError } from '../lib/errors'
-import { HttpClient } from '../lib/httpClient'
-import { fetchWrapper } from '../util/fetchUtil'
+} from '@/types'
+import { isTallyError, TallyError, TallyInvalidRequestError } from '@/lib/errors'
+import { HttpClient } from '@/lib/httpClient'
+import { fetchWrapper } from '@/util/fetchUtil'
 
 export class TallyWorkspaceService {
   #httpClient: HttpClient

@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest'
-import { TallyClient } from '../client'
-import { TallyFormService } from '../services'
-import { FetchHttpClient } from '../lib/httpClient'
+import { TallyClient } from '@/client'
+import { TallyFormService } from '@/services'
+import { FetchHttpClient } from '@/lib/httpClient'
 
-vi.mock('../lib/httpClient', () => ({
+vi.mock('@/lib/httpClient', () => ({
   FetchHttpClient: vi.fn(),
 }))
 

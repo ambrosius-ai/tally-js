@@ -1,4 +1,4 @@
-import { HttpResponse, isTallyError, TallyError } from '../lib'
+import { HttpResponse, isTallyError, TallyError } from '@/lib'
 
 export async function fetchWrapper<T>(
   request: Promise<HttpResponse<any>>,

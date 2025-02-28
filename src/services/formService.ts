@@ -4,10 +4,10 @@ import {
   TallyFormSimpleResponseDTO,
   TallyListDTO,
   TallyFormUpdateDTO,
-} from '../types'
-import { isTallyError, TallyError, TallyInvalidRequestError } from '../lib/errors'
-import { HttpClient } from '../lib/httpClient'
-import { fetchWrapper } from '../util/fetchUtil'
+} from '@/types'
+import { isTallyError, TallyError, TallyInvalidRequestError } from '@/lib/errors'
+import { HttpClient } from '@/lib/httpClient'
+import { fetchWrapper } from '@/util/fetchUtil'
 
 export class TallyFormService {
   #httpClient: HttpClient
