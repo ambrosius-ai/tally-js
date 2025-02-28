@@ -11,6 +11,8 @@ jobs:
 
   integration_test:
     uses: ./.github/workflows/integration_test.yml
+    secrets:
+      TALLY_API_KEY: ${{ secrets.TALLY_API_KEY }} # Pass the secret explicitly here
 
   build:
     needs: [prepare, integration_test]
