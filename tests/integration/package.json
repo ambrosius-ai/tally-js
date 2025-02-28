@@ -11,7 +11,7 @@
     "vitest": "^3.0.6"
   },
   "dependencies": {
-    "tally-js": "file:../../tally-js-1.0.1-alpha.2.tgz",
+    "tally-js": "file:../../tally-js-1.0.1-alpha.3.tgz",
     "vite": "^6.1.1"
   }
 }

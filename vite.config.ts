@@ -14,7 +14,8 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'tally-js',
       formats: ['es', 'cjs', 'umd'],
-      fileName: (format) => format === 'es' ? 'index.mjs' : format === 'cjs' ? 'index.js' : `index.${format}.js`,
+      fileName: (format) =>
+        format === 'es' ? 'index.mjs' : format === 'cjs' ? 'index.js' : `index.${format}.js`,
     },
     outDir: 'dist',
     sourcemap: true,
@@ -23,7 +24,7 @@ export default defineConfig({
       external: ['uuid'],
       output: {
         globals: {
-          uuid: 'uuid'
+          uuid: 'uuid',
         },
         exports: 'named',
       },

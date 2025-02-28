@@ -1,10 +1,6 @@
 name: Prepare build
 on:
   workflow_call:
-    outputs:
-      cache-key:
-        description: 'Cache key for dependencies'
-        value: ${{ jobs.prepare.outputs.cache-key }}
 
 jobs:
   prepare:
@@ -12,8 +8,6 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x]
-    outputs:
-      cache-key: ${{ steps.cache-key.outputs.value }}
 
     steps:
       - uses: actions/checkout@v4
@@ -23,20 +17,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-
-      - name: Generate cache key
-        id: cache-key
-        run: echo "value=$(date +'%Y-%m-%d')-${{ github.sha }}" >> $GITHUB_OUTPUT
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.npm
-          key: ${{ steps.cache-key.outputs.value }}
-          restore-keys: |
-            npm-deps-
 
       - name: Install dependencies
         run: npm ci
