@@ -41,6 +41,11 @@ jobs:
       - name: Create local npm package
         run: npm pack
 
+      - name: Debug
+        run: |
+          npm cache clean --force
+          echo "Cache cleaned"
+
       - name: Install package for integration tests
         run: |
           cd tests/integration
