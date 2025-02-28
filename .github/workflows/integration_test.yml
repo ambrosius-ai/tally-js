@@ -43,7 +43,7 @@ jobs:
           path: |
             node_modules
             ~/.npm
-          key: ${{ inputs.cache-key }}
+          key: ${{ needs.checks_and_unit_tests.outputs.cache-key }}
 
       - name: Build module
         run: npm run build
