@@ -1,4 +1,4 @@
-import { TallyBlockTypes } from '../lib'
+import { TallyBlockTypes } from '@/lib'
 
 export interface TallySubmissionResponseDTO {
   questionId: string

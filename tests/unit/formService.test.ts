@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { TallyFormService } from '../services'
-import { HttpClient } from '../lib/httpClient'
-import { TallyApiError, TallyInvalidRequestError, TallyUnknownError } from '../lib/errors'
+import { TallyFormService } from '@/services'
+import { HttpClient } from '@/lib/httpClient'
+import { TallyApiError, TallyInvalidRequestError, TallyUnknownError } from '@/lib/errors'
 import {
   mockSimpleResponse,
   mockValidFormRequest,

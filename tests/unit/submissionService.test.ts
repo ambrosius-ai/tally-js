@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { TallySubmissionService } from '../services'
-import { HttpClient } from '../lib/httpClient'
-import { TallyApiError, TallyInvalidRequestError, TallyUnknownError } from '../lib/errors'
-import { TallySubmissionRequestFilter } from '../types/submission.types'
+import { TallySubmissionService } from '@/services'
+import { HttpClient } from '@/lib/httpClient'
+import { TallyApiError, TallyInvalidRequestError, TallyUnknownError } from '@/lib/errors'
+import { TallySubmissionRequestFilter } from '@/types/submission.types'
 
 // Mock responses
 const mockListResponse = {

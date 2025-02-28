@@ -1,6 +1,6 @@
 import { TallyPayloadDTO } from './payload.dto.types'
 
-import { TallyFormStatus, TallyBlockTypes } from '../lib'
+import { TallyFormStatus, TallyBlockTypes } from '@/lib'
 export type TallyFormSettingsDTO = {
   closeDate?: string // Maximum length: 12
   closeMessageDescription?: string

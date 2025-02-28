@@ -1,7 +1,7 @@
-import { TallyFormSimpleResponseDTO, TallyFormUpdateDTO } from '../../types'
-import { TallyFormStatus, TallyBlockTypes } from '../../lib'
-import { TallyFormModel } from '../../models'
-import { initNewTallyBlock } from '../../util'
+import { TallyFormSimpleResponseDTO, TallyFormUpdateDTO } from '@/types'
+import { TallyFormStatus, TallyBlockTypes } from '@/lib'
+import { TallyFormModel } from '@/models'
+import { initNewTallyBlock } from '@/util'
 
 export const mockSimpleResponse = {
   data: {
