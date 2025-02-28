@@ -9,11 +9,11 @@ on:
   workflow_call:
 
 jobs:
-  prepare:
-    uses: ./.github/workflows/prepare.yml
+  checks_and_unit_tests:
+    uses: ./.github/workflows/checks_and_unit_test.yml
 
   integration:
-    needs: prepare
+    needs: [checks_and_unit_tests, prepare]
     runs-on: ubuntu-latest
     strategy:
       matrix:
