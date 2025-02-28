@@ -29,12 +29,37 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
+
+      - name: Cache TypeScript compilation
+        uses: actions/cache@v3
+        with:
+          path: |
+            .tsbuildinfo
+            dist
+          key: ${{ runner.os }}-tsc-${{ hashFiles('**/*.ts', '**/tsconfig.json') }}
 
       - name: Run type check
         run: npm run type-check
+
+      - name: Cache test results
+        uses: actions/cache@v3
+        with:
+          path: coverage
+          key: ${{ runner.os }}-test-coverage-${{ github.sha }}
 
       - name: Run unit tests
         run: npm run test

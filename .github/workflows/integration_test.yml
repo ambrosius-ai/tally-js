@@ -28,20 +28,54 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
       - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Build module
-        run: npm run build
+      - name: Cache build output
+        uses: actions/cache@v3
+        id: build-cache
+        with:
+          path: |
+            dist
+            *.tgz
+          key: ${{ runner.os }}-build-${{ hashFiles('src/**', 'package.json', 'tsconfig.json') }}
 
-      - name: Create local npm package
-        run: npm pack
+      - name: Build module
+        if: steps.build-cache.outputs.cache-hit != 'true'
+        run: |
+          npm run build
+          npm pack
+
+      - name: Cache integration test dependencies
+        uses: actions/cache@v3
+        id: integration-deps-cache
+        with:
+          path: tests/integration/node_modules
+          key: ${{ runner.os }}-integration-deps-${{ hashFiles('tests/integration/package-lock.json') }}
 
       - name: Install package for integration tests
         run: |
           cd tests/integration
-          npm ci
-          npm install ../../tally-js-1.0.1-alpha.3.tgz
+          if [ "${{ steps.integration-deps-cache.outputs.cache-hit }}" != "true" ]; then
+            npm ci
+          fi
+          npm install ../../tally-js-*.tgz
+
+      - name: Cache integration test results
+        uses: actions/cache@v3
+        with:
+          path: tests/integration/coverage
+          key: ${{ runner.os }}-integration-coverage-${{ github.sha }}
 
       - name: Run complete test suite
         run: |
