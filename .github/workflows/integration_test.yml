@@ -7,6 +7,9 @@ on:
     branches: [main, develop]
   workflow_dispatch:
   workflow_call:
+    secrets:
+      TALLY_API_KEY:
+        required: true # This makes the secret required
 
 jobs:
   prepare:
