@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { TallyClient } from 'tally-js'
+import { TallyClient } from '../../../dist'
 
 describe('API Client Integration', () => {
   it('should successfully create client instance', () => {
