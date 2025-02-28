@@ -1,4 +1,4 @@
-name: Prepare build
+name: Prepare
 on:
   workflow_call:
     outputs:

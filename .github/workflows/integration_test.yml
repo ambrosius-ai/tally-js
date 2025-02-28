@@ -1,4 +1,4 @@
-name: Complete test suite
+name: Integration Tests
 
 on:
   push:
@@ -7,6 +7,11 @@ on:
     branches: [main, develop]
   workflow_dispatch:
   workflow_call:
+    inputs:
+      cache-key:
+        description: 'Cache key for dependencies'
+        required: true
+        type: string
     secrets:
       TALLY_API_KEY:
         required: true # This makes the secret required
@@ -14,9 +19,11 @@ on:
 jobs:
   checks_and_unit_tests:
     uses: ./.github/workflows/checks_and_unit_test.yml
+    with:
+      cache-key: ${{ inputs.cache-key }}
 
   integration:
-    needs: [checks_and_unit_tests, prepare]
+    needs: [checks_and_unit_tests]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -36,23 +43,13 @@ jobs:
           path: |
             node_modules
             ~/.npm
-          key: ${{ needs.prepare.outputs.cache-key }}
-
-      - name: Cleanup previous builds
-        run: |
-          rm -f *.tgz
-          rm -rf ./tally-js-*.tgz
+          key: ${{ inputs.cache-key }}
 
       - name: Build module
         run: npm run build
 
       - name: Create local npm package
         run: npm pack
-
-      - name: Debug
-        run: |
-          npm cache clean --force
-          echo "Cache cleaned"
 
       - name: Install package for integration tests
         run: |

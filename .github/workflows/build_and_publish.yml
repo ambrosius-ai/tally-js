@@ -1,4 +1,4 @@
-name: type check,  prettier format check and unit test
+name: Build and Publish
 
 on:
   workflow_dispatch:
@@ -13,11 +13,13 @@ jobs:
     uses: ./.github/workflows/integration_test.yml
     secrets:
       TALLY_API_KEY: ${{ secrets.TALLY_API_KEY }} # Pass the secret explicitly here
+    with:
+      cache-key: ${{ needs.prepare.outputs.cache-key }}
 
   build:
     needs: [prepare, integration_test]
     runs-on: ubuntu-latest
-    if: github.event_name == 'release'
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v4
 
@@ -41,7 +43,7 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'release'
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v4
