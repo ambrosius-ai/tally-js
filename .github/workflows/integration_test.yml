@@ -35,6 +35,11 @@ jobs:
             ~/.npm
           key: ${{ needs.prepare.outputs.cache-key }}
 
+      - name: Cleanup previous builds
+        run: |
+          rm -f *.tgz
+          rm -rf ./tally-js-*.tgz
+
       - name: Build module
         run: npm run build
 
