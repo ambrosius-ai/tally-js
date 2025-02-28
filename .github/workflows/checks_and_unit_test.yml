@@ -1,12 +1,22 @@
-name: type check,  prettier format check and unit test
+name: type check, prettier format check and unit test
 
 on:
   push:
     branches:
       - '**'
-  # pull_request:
-  # branches: [main, develop]
+      - '!main'
+      - '!develop'
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      cache-key:
+        description: 'Cache key for dependencies'
+        required: true
+        type: string
+    outputs:
+      cache-key:
+        description: 'Cache key for dependencies'
+        value: ${{ inputs.cache-key }}
 
 jobs:
   prepare:
