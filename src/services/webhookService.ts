@@ -7,6 +7,18 @@ import {
 } from '@/types/webhook.dto.types'
 import { fetchWrapper } from '@/util/fetchUtil'
 
+/**
+ * Service class for interacting with Tally webhook endpoints
+ * 
+ * Provides methods to create, update and delete webhooks for Tally forms through the API.
+ * All methods return a standardized response object with the structure { data, error }, where exactly one of data or error will be defined.
+ * 
+ * @remarks
+ * - This service is automatically instantiated by {@link TallyClient} - do not instantiate manually
+ * - All methods validate required parameters and throw a {@link TallyInvalidRequestError} if required parameters are missing
+ * - Responses follow the pattern: `{ data: T | null, error: TallyError | null }`
+ * - HTTP errors are transformed into typed TallyError instances containing the error response from the API
+ */
 export class TallyWebhookService {
   #httpClient: HttpClient
   constructor(httpClient: HttpClient) {

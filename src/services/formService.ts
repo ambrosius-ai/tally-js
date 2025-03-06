@@ -9,6 +9,19 @@ import { isTallyError, TallyError, TallyInvalidRequestError } from '@/lib/errors
 import { HttpClient } from '@/lib/httpClient'
 import { fetchWrapper } from '@/util/fetchUtil'
 
+/**
+ * Service class for interacting with Tally form endpoints
+ * 
+ * Provides methods to create, read, update and delete Tally forms through the API.
+ * All methods return a standardized response object with the structure { data, error }, where exactly one of data or error will be defined.
+ * 
+ * @remarks
+ * - This service is automatically instantiated by {@link TallyClient} - do not instantiate manually
+ * - All methods validate required parameters and throw a {@link TallyInvalidRequestError} if required parameters are missing
+ * - Responses follow the pattern: `{ data: T | null, error: TallyError | null }`
+ * - HTTP errors are transformed into typed TallyError instances containing the error response from the API
+ */
+
 export class TallyFormService {
   #httpClient: HttpClient
   constructor(httpClient: HttpClient) {

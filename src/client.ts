@@ -4,6 +4,38 @@ import { TallyInvalidClientConfigError } from './lib'
 import { TallySubmissionService, TallyWebhookService, TallyWorkspaceService } from './services'
 import { TallyUserService } from './services/userService'
 
+/**
+ * Main client class for interacting with the Tally API
+ * 
+ * This is the primary entry point for using the Tally API wrapper. It provides access to all API functionality
+ * through specialized service classes that handle different resource types (forms, webhooks, etc).
+ * 
+ * @remarks
+ * The client automatically handles:
+ * - Authentication via API key
+ * - Base URL configuration
+ * - API version selection
+ * - HTTP request/response lifecycle
+ * - Error handling and type conversion
+ * 
+ * @example
+ * ```typescript
+ * const client = new TallyClient('tly-1234', 'https://api.tally.so')
+ * 
+ * // Access forms API
+ * const { data, error } = await client.forms.list()
+ * 
+ * // Create a webhook
+ * const { data, error } = await client.webhooks.create({
+ *   formId: 'abc123',
+ *   url: 'https://my-site.com/webhook',
+ *   events: ['form.submission.created']
+ * })
+ * ```
+ * 
+ * @category Core
+ */
+
 export class TallyClient {
   #httpClient: HttpClient
   readonly forms: TallyFormService

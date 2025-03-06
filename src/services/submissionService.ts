@@ -7,6 +7,20 @@ import {
   TallySubmissionRequestFilter,
 } from '@/types/submission.types'
 
+/**
+ * Service class for interacting with Tally form submission endpoints
+ * 
+ * Provides methods to list and delete form submissions through the API.
+ * All methods return a standardized response object with the structure { data, error }, where exactly one of data or error will be defined.
+ * 
+ * @remarks
+ * - This service is automatically instantiated by {@link TallyClient} - do not instantiate manually
+ * - All methods validate required parameters and throw a {@link TallyInvalidRequestError} if required parameters are missing
+ * - Responses follow the pattern: `{ data: T | null, error: TallyError | null }`
+ * - HTTP errors are transformed into typed TallyError instances containing the error response from the API
+ * - The list method supports filtering submissions by status (all, completed, partial) and pagination
+ * - Submissions can be retrieved for specific forms using the formId parameter
+ */
 export class TallySubmissionService {
   #httpClient: HttpClient
   constructor(httpClient: HttpClient) {
