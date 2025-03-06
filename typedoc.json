@@ -12,7 +12,8 @@
                     "includeGroups": true,
                     "excludeReferences": false,
                     "includeFolders": true
-                }
+                },
+                "githubPages": true
             }
         },
         {
