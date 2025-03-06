@@ -1,7 +1,8 @@
 // typedoc.json
 {
-
-    "entryPoints": ["src/index.ts"],
+    "entryPoints": [
+        "src/index.ts"
+    ],
     "outputs": [
         {
             "name": "html",
@@ -16,5 +17,10 @@
                 "githubPages": true
             }
         }
-    ]
+    ],
+    "options": {
+        "theme": "default",
+        "darkHighlightTheme": "dark-plus",
+        "defaultTheme": "dark"
+    }
 }
