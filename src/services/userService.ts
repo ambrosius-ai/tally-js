@@ -8,6 +8,7 @@ import { fetchWrapper } from '@/util'
  * Provides methods to retrieve information about the currently authenticated user through the API.
  * All methods return a standardized response object with the structure { data, error }, where exactly one of data or error will be defined.
  * 
+ * @category Services
  * @remarks
  * - This service is automatically instantiated by {@link TallyClient} - do not instantiate manually
  * - All methods validate required parameters and throw a {@link TallyInvalidRequestError} if required parameters are missing

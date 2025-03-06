@@ -13,6 +13,7 @@ import { fetchWrapper } from '@/util/fetchUtil'
  * Provides methods to create, update and delete webhooks for Tally forms through the API.
  * All methods return a standardized response object with the structure { data, error }, where exactly one of data or error will be defined.
  * 
+ * @category Services
  * @remarks
  * - This service is automatically instantiated by {@link TallyClient} - do not instantiate manually
  * - All methods validate required parameters and throw a {@link TallyInvalidRequestError} if required parameters are missing
