@@ -1,0 +1,21 @@
+// typedoc.json
+{
+    "outputs": [
+        {
+            "name": "html",
+            "path": "./docs/html",
+            "options": {
+                "navigation": {
+                    "includeCategories": true,
+                    "includeGroups": true,
+                    "excludeReferences": false,
+                    "includeFolders": true
+                }
+            }
+        },
+        {
+            "name": "json",
+            "path": "./docs/tally-js-docs.json"
+        },
+    ]
+}
