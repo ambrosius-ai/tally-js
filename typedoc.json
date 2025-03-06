@@ -5,7 +5,7 @@
     "outputs": [
         {
             "name": "html",
-            "path": "./docs/html",
+            "path": "./docs",
             "options": {
                 "navigation": {
                     "includeCategories": true,
@@ -15,10 +15,6 @@
                 },
                 "githubPages": true
             }
-        },
-        {
-            "name": "json",
-            "path": "./docs/tally-js-docs.json"
-        },
+        }
     ]
 }
