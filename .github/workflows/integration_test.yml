@@ -42,6 +42,7 @@ jobs:
         with:
           folder: docs
           branch: docs
+          token: ${{ secrets.DOCS_DEPLOY_TOKEN }}
 
       - name: Create local npm package
         run: npm pack
