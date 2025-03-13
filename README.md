@@ -141,7 +141,7 @@ do {
 
 ```typescript
 const { data, error } = await tally.webhooks.create({
-  formId: createdForm?.id,
+  formId: 'xZllsk',
   url: 'https://webhook.site/1b1b1b1b',
   eventTypes: [TallyWebhookEventType.FORM_RESPONSE],
 })
@@ -167,9 +167,5 @@ tally-js/
 │ ├── services/
 │ ├── types/
 │ ├── util/
-├── __tests__/
 
-```
-
-```
 ````

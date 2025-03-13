@@ -1,8 +1,6 @@
-name: Complete test suite
+name: Integration Tests
 
 on:
-  push:
-    branches: [main, develop]
   pull_request:
     branches: [main, develop]
   workflow_dispatch:
@@ -12,11 +10,11 @@ on:
         required: true # This makes the secret required
 
 jobs:
-  prepare:
-    uses: ./.github/workflows/prepare.yml
+  unit_test:
+    uses: ./.github/workflows/checks_and_unit_test.yml
 
   integration:
-    needs: prepare
+    needs: unit_test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -30,37 +28,24 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.npm
-          key: ${{ needs.prepare.outputs.cache-key }}
-
-      - name: Cleanup previous builds
-        run: |
-          rm -f *.tgz
-          rm -rf ./tally-js-*.tgz
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build module
         run: npm run build
 
+      - name: Generate TypeDoc
+        run: npx typedoc
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
+          branch: docs
+          token: ${{ secrets.DOCS_DEPLOY_TOKEN }}
+
       - name: Create local npm package
         run: npm pack
 
-      - name: Debug
-        run: |
-          npm cache clean --force
-          echo "Cache cleaned"
-
-      - name: Install package for integration tests
-        run: |
-          cd tests/integration
-          npm ci
-          npm install ../../tally-js-1.0.1-alpha.2.tgz
-
       - name: Run complete test suite
-        run: |
-          npm run test:coverage
-          cd $GITHUB_WORKSPACE
+        run: npm run test:coverage

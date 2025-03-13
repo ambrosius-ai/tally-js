@@ -1,5 +1,18 @@
 import { TallyBlockTypes } from '@/lib'
 
+/**
+ * Type definitions for Tally form block payloads
+ * 
+ * This module contains all type definitions for the payloads of different form blocks.
+ * Each block type has its own specific payload structure that defines its properties and behavior.
+ * 
+ * @category Types
+ * @remarks
+ * - The TallyPayloadDTO type is a union of all possible block payload types
+ * - Each payload type extends from base interfaces like TallyPayloadLayoutDTO and TallyPayloadQuestionDTO
+ * - Payload types define the structure and validation rules for different form elements
+ * - The types support various form elements including text, questions, media, and special fields
+ */
 export type TallyPayloadDTO =
   | TallyPayloadDividerDTO
   | TallyPayloadFormTitleDTO
@@ -49,6 +62,10 @@ export type TallyPayloadDTO =
   | TallyPayloadRespondentCountryDTO
   | object
 
+/**
+ * 
+ * @category Payload Types
+*/
 export interface TallyPayloadLayoutDTO {
   columnListUuid?: string
   columnRatio?: number
@@ -56,8 +73,16 @@ export interface TallyPayloadLayoutDTO {
   isHidden?: boolean
 }
 
+/**
+ * 
+ * @category Payload Types
+*/
 export interface TallyPayloadDividerDTO extends TallyPayloadLayoutDTO {}
 
+/**
+ * 
+ * @category Payload Types
+*/
 export interface TallyPayloadFormTitleDTO {
   button?: {
     label: string
@@ -71,23 +96,43 @@ export interface TallyPayloadFormTitleDTO {
   mentions?: object
 }
 
+/**
+ * 
+ * @category Payload Types
+*/
 export interface TallyPayloadTextDTO extends TallyPayloadLayoutDTO {
   html?: string
 }
 
+/**
+ * 
+ * @category Payload Types
+*/
 export interface TallyPayloadLabelDTO extends TallyPayloadTextDTO {
   isFolded?: boolean
 }
 
-/** same payload for H1, H2, H3 */
+
+
+/**
+ * same payload for H1, H2, H3 
+ * @category Payload Types
+*/
 export interface TallyPayloadHeadingDTO extends TallyPayloadLayoutDTO {
   html?: string
 }
 
+/**
+ * same payload for H1, H2, H3 
+ * @category Payload Types
+*/
 export interface TallyPayloadTitleDTO extends TallyPayloadTextDTO {
   isFolded?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadPageBreakDTO {
   index?: number
   isFirst?: boolean
@@ -96,11 +141,17 @@ export interface TallyPayloadPageBreakDTO {
   isThankYouPage?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadThankYouPageDTO {
   isHidden?: boolean
   isThankYouPage?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadImageDTO extends TallyPayloadLayoutDTO {
   alt?: string
   height?: number
@@ -108,6 +159,9 @@ export interface TallyPayloadImageDTO extends TallyPayloadLayoutDTO {
   width?: number
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadEmbedDTO extends TallyPayloadLayoutDTO {
   display?: {
     url: string
@@ -120,13 +174,22 @@ export interface TallyPayloadEmbedDTO extends TallyPayloadLayoutDTO {
   width?: string
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadEmbedAudioDTO extends TallyPayloadLayoutDTO {
   provider?: string
   url?: string
 }
 
+/**
+ * @category Payload Types
+*/
 export type TallyPayloadEmbedVideoDTO = TallyPayloadEmbedAudioDTO
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadDefaultAnswerDTO {
   blockGroupUuid?: string
   questionType?: TallyBlockTypes
@@ -135,11 +198,18 @@ export interface TallyPayloadDefaultAnswerDTO {
   calculatedFieldType?: 'NUMBER' | 'TEXT'
   title?: string
 }
+
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadQuestionDTO {
   isHidden?: boolean
   isRequired?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadMultipleChoiceDTO extends TallyPayloadQuestionDTO {
   allowMultiple?: boolean
   badgeType?: 'OFF' | 'NUMBERS' | 'LETTERS'
@@ -163,6 +233,9 @@ export interface TallyPayloadMultipleChoiceDTO extends TallyPayloadQuestionDTO {
   randomize?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadCheckboxesDTO extends TallyPayloadQuestionDTO {
   columnListUuid?: string
   columnRatio?: number
@@ -172,14 +245,26 @@ export interface TallyPayloadCheckboxesDTO extends TallyPayloadQuestionDTO {
   name?: string
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadDropdownDTO extends TallyPayloadCheckboxesDTO {
   placeholder?: string
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadRankingDTO extends TallyPayloadCheckboxesDTO {}
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadMatrixDTO extends TallyPayloadCheckboxesDTO {}
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadMultiSelectDTO extends TallyPayloadCheckboxesDTO {
   hasMaxChoices?: boolean
   hasMinChoices?: boolean
@@ -187,6 +272,9 @@ export interface TallyPayloadMultiSelectDTO extends TallyPayloadCheckboxesDTO {
   minChoices?: number
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadInputTextDTO extends TallyPayloadCheckboxesDTO {
   hasMaxCaracters?: boolean
   hasMinCaracters?: boolean
@@ -195,6 +283,9 @@ export interface TallyPayloadInputTextDTO extends TallyPayloadCheckboxesDTO {
   placeholder?: string
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadInputNumberDTO extends TallyPayloadCheckboxesDTO {
   currency?: 'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY' | 'CNY' | 'INR'
   decimalSeparator?: 'COMMA' | 'DOT'
@@ -207,14 +298,29 @@ export interface TallyPayloadInputNumberDTO extends TallyPayloadCheckboxesDTO {
   numberFormat?: 'NUMBER' | 'CURRENCY' | 'PERCENTAGE'
   placeholder?: string
   thousandsSeparator?: 'COMMA' | 'DOT' | 'SPACE' | 'NONE'
+
 }
+
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadInputEmailDTO extends TallyPayloadCheckboxesDTO {
   placeholder?: string
 }
 
+
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadInputLinkDTO extends TallyPayloadInputEmailDTO {}
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadInputPhoneNumberDTO extends TallyPayloadInputEmailDTO {}
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadInputDateDTO extends TallyPayloadInputEmailDTO {
   disableDays?:
     | 'MONDAY'
@@ -229,10 +335,19 @@ export interface TallyPayloadInputDateDTO extends TallyPayloadInputEmailDTO {
     | 'TODAY'
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadInputTimeDTO extends TallyPayloadInputEmailDTO {}
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadInputTextAreaDTO extends TallyPayloadInputTextDTO {}
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadFileUploadDTO extends TallyPayloadQuestionDTO {
   allowedFiles?: object
   columnListUuid?: string
@@ -245,6 +360,9 @@ export interface TallyPayloadFileUploadDTO extends TallyPayloadQuestionDTO {
   name?: string
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadLinearScaleDTO extends TallyPayloadCheckboxesDTO {
   maxLabel?: string
   maxValue?: number
@@ -252,10 +370,16 @@ export interface TallyPayloadLinearScaleDTO extends TallyPayloadCheckboxesDTO {
   minValue?: number
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadRatingDTO extends TallyPayloadCheckboxesDTO {
   maxValue?: number
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadHiddenFieldsDTO {
   columnListUuid?: string
   columnRatio?: number
@@ -264,14 +388,23 @@ export interface TallyPayloadHiddenFieldsDTO {
   isHidden?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadDropdownOptionDTO extends TallyPayloadCheckboxesDTO {
   index?: number
   isFirst?: boolean
   isLast?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadRankingOptionDTO extends TallyPayloadDropdownOptionDTO {}
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadMultipleChoiceOptionDTO extends TallyPayloadDropdownOptionDTO {
   badgeType?: 'OFF' | 'NUMBERS' | 'LETTERS'
   color?: string
@@ -282,10 +415,19 @@ export interface TallyPayloadMultipleChoiceOptionDTO extends TallyPayloadDropdow
   isOtherOption?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadMultiSelectOptionDTO extends TallyPayloadMultipleChoiceOptionDTO {}
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadCheckboxDTO extends TallyPayloadMultipleChoiceOptionDTO {}
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadPaymentDTO extends TallyPayloadQuestionDTO {
   columnListUuid?: string
   columnRatio?: number
@@ -297,6 +439,9 @@ export interface TallyPayloadPaymentDTO extends TallyPayloadQuestionDTO {
   currency?: 'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY' | 'CNY' | 'INR'
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadSignatureDTO extends TallyPayloadQuestionDTO {
   columnListUuid?: string
   columnRatio?: number
@@ -304,6 +449,9 @@ export interface TallyPayloadSignatureDTO extends TallyPayloadQuestionDTO {
   name?: string
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadMatrixRowDTO extends TallyPayloadQuestionDTO {
   columnListUuid?: string
   columnRatio?: number
@@ -314,14 +462,25 @@ export interface TallyPayloadMatrixRowDTO extends TallyPayloadQuestionDTO {
   index?: number
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadMatrixColumnDTO extends TallyPayloadMatrixRowDTO {}
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadWalletConnectDTO extends TallyPayloadQuestionDTO {
   columnListUuid?: string
   columnRatio?: number
   columnUuid?: string
   name?: string
+
 }
+
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadConditionalLogicDTO {
   actions?: { blockUuids: string[]; type: 'SHOW' | 'HIDE' | 'SKIP_TO'; uuid: string }
   columnListUuid?: string
@@ -343,6 +502,9 @@ export interface TallyPayloadConditionalLogicDTO {
   isHidden?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export type TallyField = {
   name?: string
   type?: 'NUMBER' | 'TEXT'
@@ -350,6 +512,9 @@ export type TallyField = {
   value?: string
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadCalculdatedFieldsDTO {
   columnListUuid?: string
   columnRatio?: number
@@ -358,6 +523,9 @@ export interface TallyPayloadCalculdatedFieldsDTO {
   isHidden?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadCaptchaDTO {
   columnListUuid?: string
   columnRatio?: number
@@ -366,6 +534,9 @@ export interface TallyPayloadCaptchaDTO {
   isRequired?: boolean
 }
 
+/**
+ * @category Payload Types
+*/
 export interface TallyPayloadRespondentCountryDTO {
   columnListUuid?: string
   columnRatio?: number

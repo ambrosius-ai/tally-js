@@ -1,3 +1,6 @@
+/**
+ * @category Enums
+ */
 export const enum TallyBlockTypes {
   FORM_TITLE = 'FORM_TITLE',
   TEXT = 'TEXT',
@@ -48,6 +51,9 @@ export const enum TallyBlockTypes {
   RESPONDENT_COUNTRY = 'RESPONDENT_COUNTRY',
 }
 
+/**
+ * @category Enums
+ */
 export const enum TallyFormStatus {
   BLANK = 'BLANK',
   DRAFT = 'DRAFT',

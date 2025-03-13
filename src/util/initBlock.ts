@@ -3,6 +3,9 @@ import { TallyFormBlockModel } from '@/models'
 import { TallyFormBlockDTO, TallyPayloadDTO } from '@/types'
 import { v4 as uuidv4 } from 'uuid'
 
+/**
+ * @category Utils
+ */
 export function initNewTallyBlock(blockType: TallyBlockTypes): TallyFormBlockDTO {
   return new TallyFormBlockModel({
     groupType: blockType,

@@ -1,0 +1,27 @@
+// typedoc.json
+{
+    "entryPoints": [
+        "src/index.ts"
+    ],
+    "outputs": [
+        {
+            "name": "html",
+            "path": "./docs",
+            "options": {
+                "navigation": {
+                    "includeCategories": true,
+                    "includeGroups": true,
+                    "excludeReferences": false,
+                    "includeFolders": true
+                },
+                "githubPages": true
+            }
+        }
+    ],
+    "categoryOrder": ["Core", "Services", "Errors", "Utils", "Enums", "HTTP", "*", "Other"],
+    "options": {
+        "theme": "default",
+        "darkHighlightTheme": "dark-plus",
+        "defaultTheme": "dark"
+    }
+}
