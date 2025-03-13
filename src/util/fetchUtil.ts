@@ -1,5 +1,8 @@
 import { HttpResponse, isTallyError, TallyError } from '@/lib'
 
+/**
+ * @category Utils
+ */
 export async function fetchWrapper<T>(
   request: Promise<HttpResponse<any>>,
 ): Promise<{ data: T | null; error: TallyError | null }> {

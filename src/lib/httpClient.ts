@@ -1,11 +1,16 @@
 import { TallyApiError, TallyError, TallyUnknownError } from './errors'
 
-// Types for the HTTP client abstraction
+/**
+ * @category HTTP
+ */
 export interface HttpResponse<T> {
   data: T | null
   error: TallyError | null
 }
 
+/**
+ * @category HTTP
+ */
 export interface HttpClient {
   get(url: string): Promise<HttpResponse<any>>
   post<T>(url: string, data: T): Promise<HttpResponse<any>>
@@ -13,7 +18,11 @@ export interface HttpClient {
   delete(url: string): Promise<HttpResponse<any>>
 }
 
-// Implementation of the HTTP client using fetch
+
+/**
+ * Implementation of the HTTP client using fetch
+ * @category HTTP
+ */
 export class FetchHttpClient implements HttpClient {
   #baseUrl: string
   #headers: Record<string, string>

@@ -34,16 +34,18 @@ jobs:
       - name: Build module
         run: npm run build
 
+      - name: Generate TypeDoc
+        run: npx typedoc
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
+          branch: docs
+          token: ${{ secrets.DOCS_DEPLOY_TOKEN }}
+
       - name: Create local npm package
         run: npm pack
 
-      - name: Install package for integration tests
-        run: |
-          cd tests/integration
-          npm ci
-          npm install ../../tally-js-1.0.1-alpha.3.tgz
-
       - name: Run complete test suite
-        run: |
-          npm run test:coverage
-          cd $GITHUB_WORKSPACE
+        run: npm run test:coverage

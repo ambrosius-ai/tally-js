@@ -1,6 +1,20 @@
 import { TallyPayloadDTO } from './payload.dto.types'
 
 import { TallyFormStatus, TallyBlockTypes } from '@/lib'
+
+/**
+ * Type definitions for Tally form-related data structures
+ * 
+ * This module contains all type definitions related to Tally forms, including
+ * form settings, blocks, and various DTOs for API requests and responses.
+ * 
+ * @category Form Types
+ * @remarks
+ * - All types follow the DTO pattern to match API request/response structures
+ * - Form settings include various configuration options like submission limits and email notifications
+ * - Form blocks represent the building blocks of a form (questions, text, etc.)
+ * - Response DTOs include both simple and full form representations
+ */
 export type TallyFormSettingsDTO = {
   closeDate?: string // Maximum length: 12
   closeMessageDescription?: string
@@ -34,11 +48,21 @@ export type TallyFormSettingsDTO = {
   uniqueSubmissionKey?: string
 }
 
+/**
+ * Type definition for payments associated to a form
+ * 
+ * @category Form Types
+ */
 export interface TallyPaymentsDTO {
   amount: number
   currency: string
 }
 
+/**
+ * Type definition for the request payload to create a form
+ * 
+ * @category Form Types
+ */
 export interface TallyFormCreateDTO {
   blocks: TallyFormBlockDTO[]
   status: TallyFormStatus
@@ -47,6 +71,11 @@ export interface TallyFormCreateDTO {
   templateId?: string
 }
 
+/**
+ * Type definition for the request payload to update a form
+ * 
+ * @category Form Types
+ */ 
 export interface TallyFormUpdateDTO {
   id: string
   blocks?: TallyFormBlockDTO[]
@@ -55,7 +84,11 @@ export interface TallyFormUpdateDTO {
   status?: TallyFormStatus
 }
 
-// Used for createForm, updateForm
+/**
+ * Type definition for the response payload after creating or updating a form
+ * 
+ * @category Form Types
+ */
 export type TallyFormSimpleResponseDTO = {
   createdAt: string
   id: string
@@ -68,17 +101,31 @@ export type TallyFormSimpleResponseDTO = {
   payments?: TallyPaymentsDTO[]
 }
 
-// Return type for the getForm request, including the contents of the form as blocks
+// Return type for the 
+/**
+ * Type definition for the getForm request, including the contents of the form as blocks
+ * 
+ * @category Form Types
+ */
 export interface TallyFormFullResponseDTO extends TallyFormSimpleResponseDTO {
   blocks?: TallyFormBlockDTO[]
   settings?: TallyFormSettingsDTO
 }
 
-// extended domain model to reprent a form with additional functionality
+/**
+ * Extended domain model representing a form with additional functionality
+ * 
+ * @category Form Types
+ */
 export interface TallyForm extends TallyFormCreateDTO {
   addBlock(block: TallyFormBlockDTO): TallyForm
 }
 
+/**
+ * Type definition for a form block
+ * 
+ * @category Form Types
+ */
 export interface TallyFormBlockDTO {
   groupType: TallyBlockTypes
   groupUuid: string
