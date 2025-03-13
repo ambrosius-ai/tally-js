@@ -8,6 +8,8 @@ on:
     secrets:
       TALLY_API_KEY:
         required: true # This makes the secret required
+      DOCS_DEPLOY_TOKEN:
+        required: true
 
 jobs:
   unit_test:

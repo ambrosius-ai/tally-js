@@ -9,6 +9,7 @@ jobs:
     uses: ./.github/workflows/integration_test.yml
     secrets:
       TALLY_API_KEY: ${{ secrets.TALLY_API_KEY }} # Pass the secret explicitly here
+      DOCS_DEPLOY_TOKEN: ${{ secrets.DOCS_DEPLOY_TOKEN }}
 
   build:
     needs: [integration_test]
