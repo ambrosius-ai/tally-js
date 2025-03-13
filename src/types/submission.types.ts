@@ -1,10 +1,26 @@
 import { TallyBlockTypes } from '@/lib'
 
+/**
+ * Type definitions for form submissions
+ * 
+ * This module contains type definitions for form submissions, including
+ * submission responses, questions, and related data structures.
+ * 
+ * @category Submission Types
+ * @remarks
+ * - Defines the structure of form submissions and their responses
+ * - Includes types for questions and their fields
+ * - Provides filtering options for submission requests
+ * - Supports pagination and filtering of submissions
+ */
 export interface TallySubmissionResponseDTO {
   questionId: string
   value: any
 }
 
+/**
+ * @category Submission Types
+ */
 export interface TallySubmissionDTO {
   id: string
   formId: string
@@ -13,6 +29,9 @@ export interface TallySubmissionDTO {
   responses: TallySubmissionResponseDTO[]
 }
 
+/**
+ * @category Submission Types
+ */
 export interface TallyQuestionFieldDTO {
   uuid: string
   type: TallyBlockTypes
@@ -20,6 +39,9 @@ export interface TallyQuestionFieldDTO {
   title: string
 }
 
+/**
+ * @category Submission Types
+ */
 export interface TallyQuestionDTO {
   id: string
   type: TallyBlockTypes
@@ -33,6 +55,9 @@ export interface TallyQuestionDTO {
   fields: TallyQuestionFieldDTO[]
 }
 
+/**
+ * @category Submission Types
+ */
 export interface TallySubmissionListDTO {
   page: number
   limit: number
@@ -46,12 +71,18 @@ export interface TallySubmissionListDTO {
   submissions: TallySubmissionDTO[]
 }
 
+/**
+ * @category Submission Types
+ */
 export enum TallySubmissionRequestFilter {
   ALL = 'all',
   COMPLETED = 'completed',
   PARTIAL = 'partial',
 }
 
+/**
+ * @category Submission Types
+ */
 export interface TallySubmissionRequestDTO {
   formId: string
   page?: number

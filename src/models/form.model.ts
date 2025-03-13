@@ -1,8 +1,13 @@
 import { createModel } from '@/util/createModel'
 import { TallyFormStatus } from '@/lib/constants'
-import { TallyFormBlockDTO, TallyFormSettingsDTO } from '@/types/form.dto.types'
+import { TallyForm, TallyFormBlockDTO, TallyFormSettingsDTO } from '@/types/form.dto.types'
 
-export class TallyFormModel {
+/**
+ * 
+ * Implementation of the Tally Form interface
+ * @category Form Types
+ */
+export class TallyFormModel implements TallyForm {
   blocks: TallyFormBlockDTO[]
   status: TallyFormStatus
   settings?: TallyFormSettingsDTO

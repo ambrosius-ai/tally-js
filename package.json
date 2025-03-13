@@ -29,6 +29,7 @@
     "test:all": "vitest",
     "test:coverage": "vitest run --coverage",
     "format": "prettier --write \"src/**/*.ts\"",
+    "docs": "npx typedoc",
     "prepare": "husky",
     "prepublishOnly": "npm run build"
   },

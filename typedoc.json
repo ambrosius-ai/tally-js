@@ -18,6 +18,7 @@
             }
         }
     ],
+    "categoryOrder": ["Core", "Services", "Errors", "Utils", "Enums", "HTTP", "*", "Other"],
     "options": {
         "theme": "default",
         "darkHighlightTheme": "dark-plus",
