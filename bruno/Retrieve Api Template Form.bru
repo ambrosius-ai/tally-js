@@ -1,0 +1,15 @@
+meta {
+  name: Retrieve Api Template Form
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/forms/{{default_template_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: tly-SVfliJA4CL01BY4dmYFnK6UmRZGn0QAw
+}
